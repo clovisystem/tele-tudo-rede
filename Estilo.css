@@ -1,0 +1,73 @@
+
+#Email{text-transform:lowercase;}
+ #Estado{text-transform:uppercase;}
+ #body{font-family:tahoma; padding:21px; margin-bottom:60px;}
+body a:link{text-decoration:none;}
+ #celula{padding:10px;}
+ #celula1{padding:16px; margin-left:0px;}
+ #Proper{text-transform:capitalize;}
+  #proper{text-transform:capitalize;}
+ #corpo{padding:30px; font-family:tahoma;}
+ #Titulo{font-size:40px; background-color:#B5C0C3; color:green; font-weight:900; border:none; font-family:arial; text-transform:uppercase;}
+ #E-mail{font-size:14px; background-color:#B5C0C3; color:green; font-weight:100; border:none; font-family:calibri; text-transform:lowercase;}
+ #Atividades{font-size:14px; background-color:#B5C0C3; color:green; font-weight:100; border:none; font-family:calibri; text-transform:capitalize;}
+ #Texto{font-size:14px; background-color:#B0C6D2; color:#168ECF; font-weight:100; border:none; font-family:verdana; text-transform:capitalize;}
+ #hobbies{font-size:14px; background-color:#B5C0C3; color:green; font-weight:100; border:none; font-family:calibri; text-transform:capitalize;}
+ #objetivo{font-size:14px; background-color:#B5C0C3; color:green; font-weight:100; border:none; font-family:calibri; text-transform:capitalize;}
+ #status{font-size:14px; background-color:#B5C0C3; color:green; font-weight:100; border:none; font-family:calibri; text-transform:capitalize;}
+ #cidade{font-size:14px; background-color:#B5C0C3; color:green; font-weight:100; border:none; font-family:calibri; text-transform:capitalize;}
+ #estado1{font-size:14px; background-color:#B5C0C3; color:green; font-weight:100; border:none; font-family:calibri; text-transform:uppercase;}
+ #aniversario{font-size:14px; background-color:#B5C0C3; color:green; font-weight:100; border:none; font-family:calibri; text-transform:capitalize;}
+ #email{text-transform:lowercase;}
+  #Body{font-family:tahoma; padding:21px;}
+  .botao{background-image:url("././botaoGradienteAzul/botaoGradienteAzulGrande.png"); background-repeat:no-repeat; margin-top:10px; width:160px; height:160px; 
+  text-align:center; float:left; position:relative;
+  }
+  .texto{ padding-top:8px; font-size:11px; }
+  .textoLocaliza{ padding-top:8px; font-size:11px; margin-top:25px;}
+  .imagemContato{ padding-top:35px;}
+  #segmento{width:800px; float:left; position:absolute;}
+  
+  #formulario1{position:relative; float:left; width:160px;}
+   #formulario2{position:relative; float:left; width:160px;}
+ .contatos{float:left; position:relative; width:520px;  margin-top:34px; margin-left:-2px;
+ padding-bottom:20px; padding-top:-10px; padding-left:16px; background-color:#B0C6D2;}
+ #lembraSenha{background-color:#B5C0C3; padding: 45px 45px 45px 45px;}
+ #botaoCadastrar{background-image:url("././BOTOES/botaoCinzaGradiente/botaoCinzaGradiente.png"); background-repeat:no-repeat; width:120px; height:60px; 
+ text-align:center;  margin-left:600px; padding-top:14px;}
+ #botaoCadastrar a:visited{text-decoration:none; color:black;}
+ #botaoCadastrar a:link{text-decoration:none; color:black;}
+ #botaoCadastrar a:hover{text-decoration:none; color:yellow; cursor:hand}
+ #esqueceuaSenha{background-image:url("././BOTOES/botaoCinzaGradiente/botaoCinzaGradiente.png"); background-repeat:no-repeat; width:120px; height:60px; 
+ text-align:center; margin-left:600px; padding-top:20px;} 
+ #esqueceuaSenha a:visited{text-decoration:none; color:black;}
+ #esqueceuaSenha a:link{text-decoration:none; color:black;}
+ #esqueceuaSenha a:hover{text-decoration:none; color:yellow; cursor:hand}
+
+ 
+ #faixa{background-image:url("././BACKGROUNDS/faixaMinor.png");background-repeat:no-repeat;  width:100%; height:120px; 
+  text-align:center;   padding-top:30px; color:white; font-family:Tahoma, calibri, arial; text-transform:uppercase;}
+ 
+
+ #faixaEsq{background-image:url("BACKGROUNDS/faixaEsq.png");background-repeat:no-repeat;  width:5%; height:120px; 
+ text-align:center;   padding-top:30px; color:white; font-family:Tahoma, calibri, arial; text-transform:uppercase;}
+
+ #faixaMeio{background-image:url("BACKGROUNDS/faixaMeio.png");background-repeat:no-repeat;  width:90%; height:120px; 
+  text-align:center;   padding-top:30px; color:white; font-family:Tahoma, calibri, arial; text-transform:uppercase;}
+
+#faixaDir{background-image:url("BACKGROUNDS/faixaDir.png");background-repeat:no-repeat;  width:5%; height:120px; 
+    text-align:center;   padding-top:30px; color:white; font-family:Tahoma, calibri, arial; text-transform:uppercase;}
+ 
+ #faixa a:visited{text-decoration:none; color:white;}
+ #faixa a:link{text-decoration:none; color:white;}
+ #faixa a:hover{text-decoration:none; color:yellow;}
+ 
+ #notificacao{background:#e6056a; width:20px; height:20px; float:left; position:relative; margin-left:3px; margin-right:0px; overflow:hidden; }
+ #link{margin-left:180px; width:160px; height:40px; float:left; position:relative; }
+ #link1{margin-left:100px; width:160px; height:40px; float:left; position:relative; }
+ #link2{margin-left:100px; width:160px; height:40px; float:left; position:relative; margin-top:-18px;}
+ #contador{background-image:url("././BACKGROUNDS/contador.png");background-repeat:no-repeat; width:260px; height:30px; }
+ #contadorMaior{background-image:url("././BACKGROUNDS/contadorMaior1.png");background-repeat:no-repeat; width:260px; height:40px; }
+ /*#contatos1{float:left; position:relative; width:220px;}*/
+ #slides{overflow:hidden; width:600px; height:300px;}
+fieldset{border-radius:10px;}

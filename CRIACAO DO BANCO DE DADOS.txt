@@ -1,0 +1,27 @@
+BANCO DE DADOS USUARIO
+
+TABELA USERS:
+codigo int(11) auto_increment
+tituloPerfil varchar(20)
+email varchar(36)
+senha varchar(20)
+estado char(2)
+cidade3 varchar(40)
+atividades varchar(255)
+hobby varchar(255)
+textoPerfil varchar(255)
+objetivo varchar(255)
+dia int(11)
+mes int(11)
+ano int(11)
+
+TABELA IMAGE:
+id int(11) auto_increment
+arquivo varchar(255)binary
+nome varchar(255)
+
+TABELA MENSAGENS:
+id int(11) auto_increment
+comentario varchar(255)
+postar varchar(255)
+sessao varchar(255)
