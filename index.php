@@ -254,11 +254,14 @@ if(document.getElementById('fornecedor').style.visibility='visible'){document.ge
 	<br/>
     <p align="left">
      <label>
+  
     <input type="submit"  id="entrar" name="entrar" value="Entrar!" STYLE="border:0;color:black; height:35px; width:110px; border-radius:8px; "/> 
 
     </label>
     </p>
 	 </font>
+   
+
 <?php	
 
 
@@ -306,8 +309,9 @@ $perfil=@mysql_query("SELECT tituloPerfil FROM _fornecedores WHERE email='$_POST
 	<br/>
     <p align="left">
      <label>
+     
     <input type="submit"  id="entrar1" name="entrar1" value="Entrar!" STYLE="border:0;color:black; height:35px; width:110px; border-radius:8px; "/>
-
+    
      </label>
     </p>
 	 </font>
@@ -334,16 +338,23 @@ echo' <input type="hidden" name="tipo" value="fornecedor"/>';
 
 </style>
 <fieldset  style="border-radius:8px; width:22%;" >
-    <form method="post" name="cadastro" action="">
+    <form method="post" name="cadastro" action="CadastrarUsuario.php">
     <p align="center">
      <label>
+      <!---ATUALIZADO EM 02-12-2018-->
+     <input type="hidden" id="UserTT" name="UserTT" value="<?php echo str_replace("/","",date('d/m/y').rand(0,999)); ?>" / >
     <div id="botaoCadastrar" style="background-image:url('BOTOES/botaoCinzaGradiente/botaoCinzaGradiente.png'); background-repeat:no-repeat; width:120px; height:60px; 
  text-align:center; padding-top:14px;">
-	<a href="CadastrarUsuario.php">Cadastre-se</a>
+    <input type="submit" id="FazerCadastro" name="FazerCadastro" value="Cadastre-se" style="opacity:0;" / >
+     <!---ATUALIZADO EM 02-12-2018-->
+	<!--<a href="CadastrarUsuario.php">Cadastre-se</a>-->
 	</div><!--STYLE="border:0; height:25;
     width:80; background:#999999;"-->
      </label>
     </p>
+    <!--ATUALIZADO EM 02-12-2018-->
+   
+    
    
     </form>
     

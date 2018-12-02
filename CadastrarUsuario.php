@@ -233,7 +233,14 @@ $(document).ready(function() {
 </div>
 <br/><br/>
 
-Nome(T&iacute;tulo para o Perfil):<input type="text" name="tituloPerfil" value="" size="16" id="Estado" maxlength="48"  onchange="javascript:retirarAcento(this);" style="text-transform:uppercase;"/>&nbsp;&nbsp;<span style="color:green;">
+<?php
+$UserTT=$_POST['UserTT'];
+//echo $UserTT;
+?>
+<input type="hidden" name="UserTT" size="16" id="UserTT"  value="<?php if(!isset($UserTT)){ echo $UserTT==str_replace("/","",date('d/m/y').rand(0,999)); }else{ echo $UserTT;} ?>
+
+
+"/>Nome(T&iacute;tulo para o Perfil):<input type="text" name="tituloPerfil" value="" size="16" id="Estado" maxlength="48"  onchange="javascript:retirarAcento(this);" style="text-transform:uppercase;"/>&nbsp;&nbsp;<span style="color:green;">
 </span><br/><br/>
 Sobrenome(T&iacute;tulo para o Perfil):<input type="text" name="tituloPerfil1" value="" size="35" id="Estado" maxlength="68" onchange="javascript:retirarAcento(this);"  style="text-transform:uppercase;"/>&nbsp;&nbsp;<span style="color:green;">
 </span><br/><br/>

@@ -221,8 +221,7 @@ if($_POST["tipo"]=="usuario"){
   
 
 
-if($senhaDigitada!=$senhaConfirmada or ($senhaDigitada == "" || $_POST['redigiteSenha'] == "" || $_POST['c_email'] 
-== ""|| $_POST['tituloPerfil'] == ""|| $_POST['tituloPerfil1'] == ""|| $_POST['estado'] == ""|| 
+if($senhaDigitada!=$senhaConfirmada or ($senhaDigitada == "" || $_POST['redigiteSenha'] == "" || $_POST['c_email'] == ""|| $_POST['tituloPerfil'] == ""|| $_POST['tituloPerfil1'] == ""|| $_POST['estado'] == ""|| 
 $_POST['cidade'] == "" || $_POST['tipo'] == ""))
 {echo '<body bgcolor="#CCCCCC"><BR><BR><font color="red"><b>'.$tituloPerfil.$tituloPerfil1.' ,nao pode ser cadastrado,
  reveja a sua senha ou se algum campo nao foi preenchido.</b></font></body>';
@@ -316,20 +315,22 @@ $incluiUsuario=str_replace("ç","c",$incluiUsuario);
 
         if($mostra == 0){
        
-
+/*-----------------------------ATUALIZADO EM 02-12-2018-------------------------------*/
         $resultado=@mysql_query("Insert into _users (tituloPerfil,email,senha,estado,cidade,dia,mes,ano,atividades,
         telefone,hobby,textoPerfil,imagem,background,tipo,CEP,USERTT)
         VALUES('".strtolower(str_replace(" ","_",$incluiUsuario))."','$email','".base64_encode($senhaDigitada)."',
         '$_POST[estado]','$_POST[cidade]',
         '$_POST[dia]','$_POST[mes]','$_POST[ano]','$_POST[atividades]','+55".$_POST['telefone']."','$_POST[hobby]',
-        '$_POST[textoPerfil]','null','#ad0a0a','$_POST[tipo]','$_POST[CEP]'),'".str_replace("/","",$userTT)."';",$conexao);
+        '$_POST[textoPerfil]','null','#ad0a0a','$_POST[tipo]','$_POST[CEP]'),'$_POST[UserTT]';",$conexao);
 
         $resultado1=@mysql_query("Insert into _tudo (tituloPerfil,email,senha,estado,cidade,dia,mes,ano,atividades,
         telefone,hobby,textoPerfil,imagem,background,tipo,CEP,USERTT)
         VALUES('".strtolower(str_replace(" ","_",$incluiUsuario))."','$email','".base64_encode($senhaDigitada)."',
         '$_POST[estado]','$_POST[cidade]',
         '$_POST[dia]','$_POST[mes]','$_POST[ano]','$_POST[atividades]','+55".$_POST['telefone']."','$_POST[hobby]',
-        '$_POST[textoPerfil]','null','#ad0a0a','$_POST[tipo]','$_POST[CEP]','".str_replace("/","",$userTT)."';",$conexao);
+        '$_POST[textoPerfil]','null','#ad0a0a','$_POST[tipo]','$_POST[CEP]','$_POST[UserTT]';",$conexao);
+/*-----------------------------ATUALIZADO EM 02-12-2018-------------------------------*/
+
 /*-----------------------------ATUALIZADO EM 17-11-2018-------------------------------*/
         
 
@@ -534,14 +535,14 @@ if($_POST["tipo"]=="fornecedor"){
     VALUES('".strtolower(str_replace(" ","_",$incluiUsuario))."','$email','".base64_encode($senhaDigitada)."',
     '$_POST[estado]','$_POST[cidade]',
     '$_POST[dia]','$_POST[mes]','$_POST[ano]','$_POST[atividades]','+55".$_POST['telefone']."',
-    '$_POST[textoPerfil]','null','#ad0a0a','$_POST[tipo]','$_POST[CEP]'),'".str_replace("/","",$userTT))."';",$conexao);
+    '$_POST[textoPerfil]','null','#ad0a0a','$_POST[tipo]','$_POST[CEP]'),'$_POST[UserTT]';",$conexao);
 
     $resultado3=@mysql_query("Insert into _tudo (tituloPerfil,email,senha,estado,cidade,dia,mes,ano,atividades,
     telefone,textoPerfil,imagem,background,tipo,CEP,USERTT)
     VALUES('".strtolower(str_replace(" ","_",$incluiUsuario))."','$email','".base64_encode($senhaDigitada)."a',
     '$_POST[estado]','$_POST[cidade]',
     '$_POST[dia]','$_POST[mes]','$_POST[ano]','$_POST[atividades]','+55".$_POST['telefone']."',
-    '$_POST[textoPerfil]','null','#ad0a0a','$_POST[tipo]','$_POST[CEP]'),'".str_replace("/","",$userTT)."';",$conexao);
+    '$_POST[textoPerfil]','null','#ad0a0a','$_POST[tipo]','$_POST[CEP]'),'$_POST[UserTT]';",$conexao);
 
     /*-----------------------------ATUALIZADO EM 17-11-2018-------------------------------*/
 
