@@ -307,7 +307,7 @@ $incluiUsuario=str_replace("ç","c",$incluiUsuario);
 
 
     if($_POST["tipo"]=="usuario"){
-
+        $userTT= date('d/m/y').rand(0,200);
         $telefone=$_POST['telefone'];
         $telefone1=substr($telefone,2,1);
         $celular=$telefone1;
@@ -315,21 +315,21 @@ $incluiUsuario=str_replace("ç","c",$incluiUsuario);
         if($celular == 9 || $celular == 8 ||$celular == 7 || $celular == 6 ){
 
         if($mostra == 0){
-
+       
 
         $resultado=@mysql_query("Insert into _users (tituloPerfil,email,senha,estado,cidade,dia,mes,ano,atividades,
         telefone,hobby,textoPerfil,imagem,background,tipo,CEP,USERTT)
         VALUES('".strtolower(str_replace(" ","_",$incluiUsuario))."','$email','".base64_encode($senhaDigitada)."',
         '$_POST[estado]','$_POST[cidade]',
         '$_POST[dia]','$_POST[mes]','$_POST[ano]','$_POST[atividades]','+55".$_POST['telefone']."','$_POST[hobby]',
-        '$_POST[textoPerfil]','null','#ad0a0a','$_POST[tipo]','$_POST[CEP]'),'".now()._.rand()."';",$conexao);
+        '$_POST[textoPerfil]','null','#ad0a0a','$_POST[tipo]','$_POST[CEP]'),'".str_replace("/","",$userTT)."';",$conexao);
 
         $resultado1=@mysql_query("Insert into _tudo (tituloPerfil,email,senha,estado,cidade,dia,mes,ano,atividades,
         telefone,hobby,textoPerfil,imagem,background,tipo,CEP,USERTT)
         VALUES('".strtolower(str_replace(" ","_",$incluiUsuario))."','$email','".base64_encode($senhaDigitada)."',
         '$_POST[estado]','$_POST[cidade]',
         '$_POST[dia]','$_POST[mes]','$_POST[ano]','$_POST[atividades]','+55".$_POST['telefone']."','$_POST[hobby]',
-        '$_POST[textoPerfil]','null','#ad0a0a','$_POST[tipo]','$_POST[CEP]','".now()._.rand()."';",$conexao);
+        '$_POST[textoPerfil]','null','#ad0a0a','$_POST[tipo]','$_POST[CEP]','".str_replace("/","",$userTT)."';",$conexao);
 /*-----------------------------ATUALIZADO EM 17-11-2018-------------------------------*/
         
 
@@ -520,7 +520,7 @@ else{
 
 
 if($_POST["tipo"]=="fornecedor"){
-
+    $userTT=date('d/m/y').rand(0,200);
     /*-----------------------------ATUALIZADO EM 17-11-2018-------------------------------*/
     $telefone=$_POST['telefone'];
     $telefone1=substr($telefone,2,1);
@@ -534,14 +534,14 @@ if($_POST["tipo"]=="fornecedor"){
     VALUES('".strtolower(str_replace(" ","_",$incluiUsuario))."','$email','".base64_encode($senhaDigitada)."',
     '$_POST[estado]','$_POST[cidade]',
     '$_POST[dia]','$_POST[mes]','$_POST[ano]','$_POST[atividades]','+55".$_POST['telefone']."',
-    '$_POST[textoPerfil]','null','#ad0a0a','$_POST[tipo]','$_POST[CEP]'),'".now()._.rand()."';",$conexao);
+    '$_POST[textoPerfil]','null','#ad0a0a','$_POST[tipo]','$_POST[CEP]'),'".str_replace("/","",$userTT))."';",$conexao);
 
     $resultado3=@mysql_query("Insert into _tudo (tituloPerfil,email,senha,estado,cidade,dia,mes,ano,atividades,
     telefone,textoPerfil,imagem,background,tipo,CEP,USERTT)
     VALUES('".strtolower(str_replace(" ","_",$incluiUsuario))."','$email','".base64_encode($senhaDigitada)."a',
     '$_POST[estado]','$_POST[cidade]',
     '$_POST[dia]','$_POST[mes]','$_POST[ano]','$_POST[atividades]','+55".$_POST['telefone']."',
-    '$_POST[textoPerfil]','null','#ad0a0a','$_POST[tipo]','$_POST[CEP]'),'".now()._.rand()."';",$conexao);
+    '$_POST[textoPerfil]','null','#ad0a0a','$_POST[tipo]','$_POST[CEP]'),'".str_replace("/","",$userTT)."';",$conexao);
 
     /*-----------------------------ATUALIZADO EM 17-11-2018-------------------------------*/
 

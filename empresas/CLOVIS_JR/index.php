@@ -165,6 +165,7 @@ $tipo=$tipo["tipo"];
 
 
 
+ini_set("Default_Charset","iso-8859-1");
 
 $iphone=strpos($_SERVER['HTTP_USER_AGENT'],"iPhone");
 $ipad=strpos($_SERVER['HTTP_USER_AGENT'],"iPad");
@@ -175,17 +176,18 @@ $ipod=strpos($_SERVER['HTTP_USER_AGENT'],"iPod");
 $symbian=strpos($_SERVER['HTTP_USER_AGENT'],"Symbian");
 
 if($iphone || $ipad || $android || $palmpre || $ipod || $berry || $symbian):
-
-echo'<form name="mobile" method="post" action="mobilePerfil.php?nome='.$nome.'&tipo='.$tipo.'">
-<input type="hidden" name="email" value="'.$login.'"/>
-<input type="hidden" name="senha" value="'.$password.'"/>
-<button type="submit" name="mobile" value="Versao Mobile" style="width:1150px; height:40px;">Acessar Versao Mobile</button>
-</form>';
-else:
+    ini_set("Default_Charset","utf-8");
     echo'<form name="mobile" method="post" action="mobilePerfil.php?nome='.$nome.'&tipo='.$tipo.'">
     <input type="hidden" name="email" value="'.$login.'"/>
     <input type="hidden" name="senha" value="'.$password.'"/>
-    <button type="submit" name="mobile" value="Versao Mobile" style="width:1150px; height:20px;">Você está usando o computador</button>
+    <button type="submit" name="mobile" value="Versao Mobile" style="width:1150px; height:40px;">Acessar Vers&atilde;o Mobile</button>
+    </form>';
+else:
+    ini_set("Default_Charset","utf-8");
+    echo'<form name="mobile" method="post" action="mobilePerfil.php?nome='.$nome.'&tipo='.$tipo.'">
+    <input type="hidden" name="email" value="'.$login.'"/>
+    <input type="hidden" name="senha" value="'.$password.'"/>
+    <button type="submit" name="mobile" value="Versao Mobile" style="width:1150px; height:20px;">Voc&ecirc; est&aacute; usando o computador</button>
     </form>';
 endif;
 
@@ -319,7 +321,7 @@ $password=isset($_POST['c_senha'])?$_POST['c_senha']:null;
 
 //$password=@mysql_query("SELECT senha FROM users WHERE email=".$login.";",$conexao);
 //$password=@mysql_fetch_array($password);
-$sql_logar = "SELECT * FROM _tudo WHERE _tudo.email = '$login' && _tudo.senha= '$password' ";
+$sql_logar = "SELECT * FROM _tudo WHERE _tudo.email = '$login' && _tudo.senha= '".base64_encode($password)."' ";
 //$sql_logar = "SELECT * FROM _users,_fornecedores WHERE _users.email = '$login' && _users.senha= '$password' OR _fornecedores.email = '$login' && _fornecedores.senha = '$password' ";
 $exe_logar = mysql_query($sql_logar) or die (mysql_error());
 $fet_logar = mysql_fetch_assoc($exe_logar);
@@ -327,8 +329,8 @@ $num_logar = mysql_num_rows($exe_logar);
 
 if ($num_logar == 0){
    echo "<body bgcolor='#ad0a0a;' id='corpo'>";
-   echo "<p id='Estado' align='center'>Login ou senha invalido.</p><br/><br/>";
-   echo "<br/><center><a href='javascript:window.history.go(-2)'>Clique aqui para voltar.</a><center>";
+   echo "<p id='Estado' align='center'><h1>Login ou senha invalido.</h1></p><br/><br/>";
+   echo "<br/><center><a href='javascript:window.history.go(-2)'><h2>Clique aqui para voltar.</h2></a><center>";
    echo $login."</body>";
    //echo $password."</body>";
    if(!filter_var($login,FILTER_VALIDATE_EMAIL)){
@@ -339,8 +341,12 @@ if ($num_logar == 0){
 else{
     //@session_start();
 	//@ob_start();
-    //$_SESSION['c_email']=$login;
-    //$_SESSION['c_senha']=$password;
+    $_SESSION['c_email']=$login;
+    $_SESSION['c_senha']=$password;
+
+    if($_SESSION['c_email']==null){
+        echo "<script>history.go(-2);</script>"
+    }
 
 	$_POST['c_email']=$login;
     $_POST['c_senha']=$password;
@@ -868,6 +874,7 @@ $(document).ready(function(){
                     tema="<style='background:"+ retorno.background +";' >";
                 //}
                 $("#tabelaUser table").html(tema);
+               
             }
             
         })
@@ -1990,7 +1997,8 @@ echo'</div>';
 
 <?php
 
-echo'<table style="background:'.$cor.'; width:1000px;  margin-top:0%; z-index:-90; border-radius:12px;"><tr><td>';
+echo'<table id="tabelaUser" style="background:'.$cor.'; width:1150px;  margin-top:0%; z-index:-90; border-radius:12px;" ><tr><td>';
+//echo'<table style="background:'.$cor.'; width:1000px;  margin-top:0%; z-index:-90; border-radius:12px;"><tr><td>';
 //$cor="blue";
 //echo $cor;
 #B5C0C3
@@ -2009,13 +2017,13 @@ name="alteraTexto" id="alteraTexto" value="Alterar nome do perfil" style="border
 <?php
 $tipo=$_GET["tipo"];
 echo'</td><td style="color:transparent;"></td></tr>
-<td width="30%"  align="left" valign="bottom"style="padding-left:20px; padding-top:30px;"><font color="#06438E" size="3" face="verdana">
-<b>Minhas informa&ccedil;&otilde;es</b>&nbsp;<a href="../../alteraInformacoes.php?perfil='.$perfil.'&tipo='.$tipo.'">
+<td   align="left" valign="bottom"style="padding-left:20px; padding-top:30px;"><font color="#06438E" size="3" face="verdana">
+<b>Minhas informa&ccedil;&otilde;es</b>&nbsp;<a href="../../alteraInformacoes.php?meuPerfil='.$perfil.'&tipo='.$tipo.'">
 <input type="button"
 name="alteraInformacoes" id="alteraTexto" value="Alterar Informacoes" style="border-radius:80px; background-color:white;"/></a></td>
 <td width="50%"  colspan="3" align="left" valign="bottom"><font color="#06438E" size="3" face="verdana">
 <b>Quem sou eu...</b></td></tr>';
-echo'<tr><td width="50%" colspan="1" height="50" rowspan="1" valign="bottom" >
+echo'<tr><td  colspan="1" height="50" rowspan="1" valign="bottom" >
 <div id="campo" style="background-image:url(../../BACKGROUNDS/CampoMyWeb.png);
 background-repeat:no-repeat;height:80px;padding-top:20px;padding-left:10px;">
 

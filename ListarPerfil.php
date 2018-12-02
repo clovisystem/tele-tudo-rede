@@ -341,8 +341,12 @@ if ($num_logar == 0){
 else{
     //@session_start();
 	//@ob_start();
-    //$_SESSION['c_email']=$login;
-    //$_SESSION['c_senha']=$password;
+    $_SESSION['c_email']=$login;
+    $_SESSION['c_senha']=$password;
+
+    if($_SESSION['c_email']==null){
+        echo "<script>history.go(-2);</script>"
+    }
 
 	$_POST['c_email']=$login;
     $_POST['c_senha']=$password;
