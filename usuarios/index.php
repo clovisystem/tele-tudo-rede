@@ -391,7 +391,7 @@ else{
 $perfilNotifica=strtolower(str_replace(' ','_',$perfil));
 //$sql = @mysql_query("SELECT _vitrine.* FROM _vitrine JOIN ".strtolower($perfil)." ON _vitrine.vendedor = ".strtolower($perfil).".contatos WHERE vendedor <> '$perfil' ORDER BY codigo DESC ;",$conexao);
      
-     $exibe_comentario=mysqli_query($iconexao,"SELECT * FROM _comentarios JOIN ".$perfilNotifica." ON _comentarios.nome=".$perfilNotifica.".contatos WHERE _comentarios.notificacao='1' AND ".$perfilNotifica.".contatos <> '".$perfilNotifica."'"); //
+     $exibe_comentario=mysqli_query($iconexao,"SELECT * FROM _comentarios JOIN ".$perfilNotifica." ON _comentarios.nome=".$perfilNotifica.".contatos WHERE _comentarios.notificacao='1' AND ".$perfilNotifica.".contatos <> '".$perfilNotifica."' "); //
      $exibe_comentario_linhas=mysqli_num_rows($exibe_comentario);
      $exibe_comentario=mysqli_fetch_assoc($exibe_comentario);
 
@@ -401,7 +401,7 @@ $perfilNotifica=strtolower(str_replace(' ','_',$perfil));
      $redirecionaNotific=$redirecionaNotific["tipo"];
     
      if($exibe_comentario_linhas > 0){
-         echo'<div class="alert alert-danger">Voc&ecirc; recebeu novos coment&aacute;rios sobre seu produto!</div>';
+         echo'<div class="alert alert-danger" style="widt:1130px;">Voc&ecirc; recebeu novos coment&aacute;rios sobre seu produto!</div>';
          echo"<br>";
          echo"<form name='notificaçoes' method='post' action='../../comentarios_produtos.php'/>";
          echo"<input type='hidden' name='nome' value='".$perfilNotifica."'/>";
@@ -1779,9 +1779,9 @@ echo'<div style="margin-left:30px;"><H2>OFERTA DE PRODUTOS</h2>';
 <img src="../../'.$arquivo.'" width="90"  height="120" border="2" bordercolor="#FF6600" style=" position:relative; float:left; width:20%;  border-radius:10px; alt="Sua foto n&atilde;o p&ocirc;de ser carregada, tente outra."/></a>
         
 
-<div name="nomeDoProduto" style=" position:relative; float:left; width:20%; margin-left:10px; background:transparent; border:none; text-transform:uppercase; background:gold; border-radius:12px; height:40px; width:200px;"  >'.$nomeProduto.'</div>
+<div name="nomeDoProduto" style=" position:relative; float:left; width:20%; margin-left:10px;  background:transparent; border:none; text-transform:uppercase; background:gold; border-radius:12px; height:40px; width:200px;"  >'.$nomeProduto.'</div>
 
-<div name="descricaoDoProduto" style=" position:relative; float:left; width:50%; margin-left:10px; border:none; text-transform:capitalize;background:gold; border-radius:12px; height:100px; width:300px; ">'.$descricaoProduto.'</div>
+<div name="descricaoDoProduto" style=" position:relative; float:left; width:50%; margin-left:10px;  border:none; text-transform:capitalize;background:gold; border-radius:12px; height:100px; width:300px; ">'.$descricaoProduto.'</div>
 
 <div name="url" style="position:relative; float:left; width:20%; margin-left:10px; background:transparent; border:none;" >
 ';
@@ -1818,10 +1818,10 @@ echo'<a href="http://www.tele-tudo.com/produtos?CEP='.$CEP.'&PESQ='.$PESQ.'&Tpe=
 
 
 /*-------------------------------- ALTERADO EM 22-12-2018 ---------------------------*/
-
-$_SESSION['usuario']==$perfil;
+//echo'<script src="../../js/incluiComentario.js"></script>';
+echo"<div style='padding:12px;'>";
 echo'<form name="comentario" method="POST" action="../../comentario_enviado.php">
-    <textarea name="comentario" id="comentario" value="" rows="4" cols="22" placeholder="Comente e pressione ENTER" style="margin-left:20px; margin-top:10px;"></textarea>
+    <input type="text" multiline name="comentario" id="comentario" value="" placeholder="Comente e pressione ENTER" style="width:200px; border:none; border-radius:6px; margin-left:20px; margin-top:10px;"/>
     <input type="hidden" name="perfil" id="perfil" value="'.$perfil.'" />
     <input type="hidden" name="nomeProduto" id="nomeProduto" value="'.$nomeProduto.'"/>';
     
@@ -1830,28 +1830,32 @@ echo'<form name="comentario" method="POST" action="../../comentario_enviado.php"
 echo'</form>';
 
 
-         
-$exibe_comentario=mysqli_query($iconexao,"SELECT * FROM _comentarios WHERE produto = '$nomeProduto'");
+     
+$exibe_comentario=mysqli_query($iconexao,"SELECT * FROM _comentarios WHERE produto = '$nomeProduto' ORDER BY id DESC LIMIT 4 ");
 
        $exibe_comentario_linhas=mysqli_num_rows($exibe_comentario);
        //$exibe_comentario=mysql_fetch_assoc($exibe_comentario);
     if($exibe_comentario_linhas>0){
        while ($row = mysqli_fetch_assoc($exibe_comentario)){
-           echo "<ul>";
-           echo "<li style='color:green; font-size:18px; list-style-type:none;'>".ucwords(str_replace("_"," ",$row['nome']))."</li>";
+           ////echo "<ul>";
+        
+           echo "<span style='color:green; font-size:12px; list-style-type:none; margin-left:20px' >Voc&ecirc; disse:</span>";
           
-           echo "<li style='color:white; list-style-type:none; font-size:10px;'>".$row['comentario']."</li>";
-           echo "</ul>";
+           echo "<span style='color:white; list-style-type:none; font-size:12px; margin-left:20px; width:800px;'>".$row['comentario']."</span>";
+           //echo "</ul>";
+          
            echo "<br/><br/>";
   
         }
     }
-        /*for($i==0;$i<$exibe_comentario_linhas;$i++){
-            echo $exibe_comentario['nome'];
-            echo "<br/>";
-            echo $exibe_comentario['comentario'].'<br><br>';
-        }*/
+ echo"</div>";  
+//COLOCADO NO  COMENTARIO ENVIADO.PHP
+/*
+echo "<div class='comentarioRetorno'>";
+include ('../../comentario_enviado.php');
+echo"</div>";
 
+*/
 
 
 
@@ -3245,29 +3249,24 @@ echo'</form>';
 
 
          
-$exibe_comentario=mysqli_query($iconexao,"SELECT * FROM _comentarios WHERE produto = '$nomeProduto'");
+$exibe_comentario=mysqli_query($iconexao,"SELECT * FROM _comentarios WHERE produto = '$nomeProduto' ORDER BY id DESC LIMIT 4");
 
        $exibe_comentario_linhas=mysqli_num_rows($exibe_comentario);
        //$exibe_comentario=mysql_fetch_assoc($exibe_comentario);
     if($exibe_comentario_linhas>0){
        while ($row = mysqli_fetch_assoc($exibe_comentario)){
-           echo "<ul>";
-           echo "<li style='color:green; font-size:18px; list-style-type:none;'>".ucwords(str_replace("_"," ",$row['nome']))."</li>";
+           ////echo "<ul>";
+        
+           echo "<span style='color:green; font-size:12px; list-style-type:none; margin-left:20px' >Voc&ecirc; disse:</span>";
           
-           echo "<li style='color:white; list-style-type:none; font-size:10px;'>".$row['comentario']."</li>";
-           echo "</ul>";
+           echo "<span style='color:white; list-style-type:none; font-size:12px; margin-left:20px; width:800px;'>".$row['comentario']."</span>";
+           //echo "</ul>";
+          
            echo "<br/><br/>";
   
         }
     }
-        /*for($i==0;$i<$exibe_comentario_linhas;$i++){
-            echo $exibe_comentario['nome'];
-            echo "<br/>";
-            echo $exibe_comentario['comentario'].'<br><br>';
-        }*/
-
-
-
+ echo"</div>";  
 
 
 

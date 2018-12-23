@@ -27,7 +27,7 @@
 function submetendo()
 {
 //document.form.submit();
-setTimeout("document.form0.submit();",3000); 
+setTimeout("document.form0.submit();",2000); 
 }
 
 </script>

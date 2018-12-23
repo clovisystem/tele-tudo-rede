@@ -13,7 +13,7 @@ $perfilNotifica=$_POST["nome"];
 $tipoParceiro=$_POST["tipoParceiro"];
 //$nomeProduto=$_POST["nomeProduto"];
 
-$exibe_comentario=mysqli_query($iconexao,"SELECT * FROM _comentarios JOIN ".$perfilNotifica." ON _comentarios.nome=".$perfilNotifica.".contatos WHERE ".$perfilNotifica.".contatos <> '".$perfilNotifica."'");
+$exibe_comentario=mysqli_query($iconexao,"SELECT * FROM _comentarios JOIN ".$perfilNotifica." ON _comentarios.nome=".$perfilNotifica.".contatos WHERE ".$perfilNotifica.".contatos <> '".$perfilNotifica."' ORDER BY _comentarios.id DESC");
 
 
 
