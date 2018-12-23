@@ -14,7 +14,6 @@
 <meta name="google-site-verification" content="Ap6M_wtc-8emjVHtvXtyea6HztiDHndeONJXrOEtXyA" />
 <META NAME="AUTHOR"="Clovis Jr">
 <META NAME="DESCRIPTION" CONTENT="myWeb">
-<meta name="url" content="http://www.myweb.is-great.net">
 <meta name="language" content="Portugues">
 <meta name="keywords" content=" myweb ,myWeb , rede social, MYWEB, clovisjr, clovisystem, clov!system, junior, iped,  pragrama��o de sites ">
 <meta name="reply-to" content="clovisystem_net@yahoo.com.br">
@@ -25,14 +24,15 @@
 
 
 </HEAD>
-<!--<BODY onload="movePopUp();" style="background-image:url('BACKGROUNDS/layoutprinc.gif'); background-size:cover;background-repeat:no-repeat; background-attachment:fixed; height:100vh;" id="body"  >-->
-<BODY   style="background-image:url('BACKGROUNDS/Compras.jpg'); background-size:cover;background-repeat:no-repeat; background-attachment:fixed; height:100vh;"  >
+
+<BODY   style="background-image:url('BACKGROUNDS/Compras.jpg'); background-size:cover;
+background-repeat:no-repeat;  background-attachment:fixed; height:100vh;">
  <?php
 include 'based.php';
 $user=isset($_POST['c_email'])?$_POST['c_email']:null;
 ?>
 
-<div class="container container-fluid  ">
+<div class="container container-fluid">
 <div class="row">
 
 
@@ -220,7 +220,7 @@ $perfil=@mysql_query("SELECT tituloPerfil FROM _users WHERE email='$_POST[c_emai
 ?>
 <div style="color:white; font-weight:600px; font-size:20px; background:#ad0a0a; border-radius:12px; width:100%; height:50%; padding-left:0px;">
 
-Você é &nbsp;&nbsp;<input type="radio" name="tipo" value="fornecedor" id="tipo" onclick="if(document.getElementById('fornecedor').style.visibility='hidden'){document.getElementById('fornecedor').style.visibility='visible'};
+Voc&ecirc; &eacute; &nbsp;&nbsp;<input type="radio" name="tipo" value="fornecedor" id="tipo" onclick="if(document.getElementById('fornecedor').style.visibility='hidden'){document.getElementById('fornecedor').style.visibility='visible'};
 if(document.getElementById('usuario').style.visibility='visible'){document.getElementById('usuario').style.visibility='hidden'}  "/>Fornecedor &nbsp;&nbsp;
 
 <input type="radio" name="tipo" value="usuario" id="tipo" onclick="if(document.getElementById('usuario').style.visibility='hidden'){document.getElementById('usuario').style.visibility='visible'};
@@ -232,7 +232,7 @@ if(document.getElementById('fornecedor').style.visibility='visible'){document.ge
 
 <div id="usuario" style="visibility:hidden; margin-top:20px; margin-left:0px;  float:left; width:100%;"><!--LOGIN DE USUARIO-->
     <font face="tahoma"   style="float:left; position:relative; font-size:15px; color:white; font-weight:600;">
-    E-mail:<input type="text" name="c_email" id="c_email" placeholder="Meu e-mail de usuário"  style="color:black; width:40%;" onmouseover="mudaTransparencia();"  onClick="javascript:this.value=''"/>
+    E-mail:<input type="text" name="c_email" id="c_email" placeholder="Meu e-mail de usu&aacute;rio"  style="color:black; width:40%;" onmouseover="mudaTransparencia();"  onClick="javascript:this.value=''"/>
     @<select name="dominio" id="dominio" style="color:black; width:40%;">
 <option value="gmail.com" selected>gmail.com</option>
 <option value="hotmail.com" >hotmail.com</option>
@@ -287,7 +287,7 @@ $perfil=@mysql_query("SELECT tituloPerfil FROM _fornecedores WHERE email='$_POST
 ?>
 <div id="fornecedor" style="visibility:hidden; margin-top:20px; margin-left:0px; position:absolute; float:left; width:100%;"><!--LOGIN DE FORNECEDOR-->
     <font face="tahoma"   style="float:left; position:relative; font-size:15px; color:white; font-weight:600;">
-    E-mail:<input type="text" name="c_email" id="c_email" placeholder="Meu e-mail de empresário"  style="color:black; width:40%;" onmouseover="mudaTransparencia();"  onClick="javascript:this.value=''"/>
+    E-mail:<input type="text" name="c_email" id="c_email" placeholder="Meu e-mail de empres&aacute;rio"  style="color:black; width:40%;" onmouseover="mudaTransparencia();"  onClick="javascript:this.value=''"/>
     @<select name="dominio" style="color:black; width:40%;">
 <option value="gmail.com" selected>gmail.com</option>
 <option value="hotmail.com" >hotmail.com</option>
@@ -344,8 +344,8 @@ echo' <input type="hidden" name="tipo" value="fornecedor"/>';
       <!---ATUALIZADO EM 02-12-2018-->
      <input type="hidden" id="UserTT" name="UserTT" value="<?php echo str_replace("/","",date('d/m/y').rand(0,999)); ?>" / >
     <div id="botaoCadastrar" style="background-image:url('BOTOES/botaoCinzaGradiente/botaoCinzaGradiente.png'); background-repeat:no-repeat; width:120px; height:60px; 
- text-align:center; padding-top:14px;">
-    <input type="submit" id="FazerCadastro" name="FazerCadastro" value="Cadastre-se" style="opacity:0;" / >
+ text-align:center; padding-top:14px;"><h5 style="z-index:4; position:absolute; top:28px; left:48px;">Cadastre-se
+    <input type="submit" id="FazerCadastro" name="FazerCadastro" value="Cadastre-se" style="opacity:0;" / ></h5>
      <!---ATUALIZADO EM 02-12-2018-->
 	<!--<a href="CadastrarUsuario.php">Cadastre-se</a>-->
 	</div><!--STYLE="border:0; height:25;
@@ -384,16 +384,14 @@ echo' <input type="hidden" name="tipo" value="fornecedor"/>';
 	<main  class="col-xs-12 " > 
     <br/>
     <div style="margin-top:30%;">
-	<p align="left">Desenvolvido por: Clovis Pereira Soares Júnior</p>
+	<p align="left">Desenvolvido por: Clovis Pereira Soares J&uacute;nior</p>
     <p align="right"><img src="BACKGROUNDS/Clov!System_2012_logo.png" width="120" height="60"/></p>
     </div>
-    <br/>
+    
 	</main>
 	</div><!--row-->
 	  
     
 </div><!--fechacontainer-->
-
-
 </BODY>
-</HTML>
+

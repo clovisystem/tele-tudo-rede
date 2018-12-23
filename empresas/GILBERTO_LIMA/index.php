@@ -302,18 +302,20 @@ document.write('<font size=2 color="white">'+day + '</font>' +'<font size=2 colo
 
 include ("../../based.php");
 
+session_start();
 
 
 $login=$_POST['c_email']."@".$_POST['dominio'];
 $password=isset($_POST['c_senha'])?$_POST['c_senha']:null;
 
-
+$_SESSION['email']=$login;
+$_SESSION['senha']=$password;
 //$login=$_GET['c_email']."@".$_GET['dominio'];
 //$password=$_GET['e'];
 
 
-
-
+$login=$_SESSION['email'];
+$password=$_SESSION['senha'];
 
 
 
@@ -345,7 +347,7 @@ else{
     $_SESSION['c_senha']=$password;
 
     if($_SESSION['c_email']==null){
-        echo "<script>history.go(-2);</script>"
+        echo "<script>history.go(-2);</script>";
     }
 
 	$_POST['c_email']=$login;
@@ -358,6 +360,20 @@ else{
     echo'<form method="post" enctype="multipart/form-data" action="../../index.php">
     <input type="submit" name="sair" value="Fazer logoff"/></form>';
     $localizaContato=$login;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
     
     $perfil=@mysql_query("SELECT * FROM _tudo WHERE email='".$login."';",$conexao);
@@ -365,6 +381,39 @@ else{
     $perfil=$perfil["tituloPerfil"];
 	$numeroMensagens0=@mysql_query("SELECT comentario FROM _mensagens WHERE postar='$perfil';",$conexao);
     $cont0 = mysql_num_rows($numeroMensagens0);
+
+
+
+
+    
+
+    
+$perfilNotifica=strtolower(str_replace(' ','_',$perfil));
+//$sql = @mysql_query("SELECT _vitrine.* FROM _vitrine JOIN ".strtolower($perfil)." ON _vitrine.vendedor = ".strtolower($perfil).".contatos WHERE vendedor <> '$perfil' ORDER BY codigo DESC ;",$conexao);
+     
+     $exibe_comentario=mysqli_query($iconexao,"SELECT * FROM _comentarios JOIN ".$perfilNotifica." ON _comentarios.nome=".$perfilNotifica.".contatos WHERE _comentarios.notificacao='1' AND ".$perfilNotifica.".contatos <> '".$perfilNotifica."'"); //
+     $exibe_comentario_linhas=mysqli_num_rows($exibe_comentario);
+     $exibe_comentario=mysqli_fetch_assoc($exibe_comentario);
+
+
+     $redirecionaNotific=@mysqli_query($iconexao,"SELECT * FROM _tudo WHERE email ='$_POST[c_email]';");
+     $redirecionaNotific=@mysqli_fetch_array($redirecionaNotific);  
+     $redirecionaNotific=$redirecionaNotific["tipo"];
+    
+     if($exibe_comentario_linhas > 0){
+         echo'<div class="alert alert-danger">Voc&ecirc; recebeu novos coment&aacute;rios sobre seu produto!</div>';
+         echo"<br>";
+         echo"<form name='notificaçoes' method='post' action='../../comentarios_produtos.php'/>";
+         echo"<input type='hidden' name='nome' value='".$perfilNotifica."'/>";
+         echo"<input type='hidden' name='tipoParceiro' value='".$redirecionaNotific."'/>";
+         echo"<button type='submit' name='Ver' class='btn btn-primary'>Ver Comentários</button>";
+         echo"</form>";
+     }
+     
+
+
+ 
+
 	
 ?>
 
@@ -1695,7 +1744,7 @@ echo'<tr><td>';
 
 //echo $perfil;
 
-$sql = @mysql_query("SELECT _vitrine.* FROM _vitrine  JOIN ".strtolower($perfil)."  ON _vitrine.vendedor = ".strtolower($perfil).".contatos ORDER BY codigo DESC ;",$conexao);
+$sql = @mysql_query("SELECT _vitrine.* FROM _vitrine  JOIN ".strtolower($perfil)."  ON _vitrine.vendedor = ".strtolower($perfil).".contatos WHERE contatos <> '".strtolower($perfil)."' ORDER BY codigo DESC ;",$conexao);
 //echo strtolower($perfil);
 $limite = @mysql_query("$sql");
 $linhasOfertas = @mysql_num_rows($sql);
@@ -1767,6 +1816,59 @@ echo'<a href="http://www.tele-tudo.com/produtos?CEP='.$CEP.'&PESQ='.$PESQ.'&Tpe=
 </a>';
 
 
+
+/*-------------------------------- ALTERADO EM 22-12-2018 ---------------------------*/
+
+$_SESSION['usuario']==$perfil;
+echo'<form name="comentario" method="POST" action="../../comentario_enviado.php">
+    <textarea name="comentario" id="comentario" value="" rows="4" cols="22" placeholder="Comente e pressione ENTER" style="margin-left:20px; margin-top:10px;"></textarea>
+    <input type="hidden" name="perfil" id="perfil" value="'.$perfil.'" />
+    <input type="hidden" name="nomeProduto" id="nomeProduto" value="'.$nomeProduto.'"/>';
+    
+
+
+echo'</form>';
+
+
+         
+$exibe_comentario=mysqli_query($iconexao,"SELECT * FROM _comentarios WHERE produto = '$nomeProduto'");
+
+       $exibe_comentario_linhas=mysqli_num_rows($exibe_comentario);
+       //$exibe_comentario=mysql_fetch_assoc($exibe_comentario);
+    if($exibe_comentario_linhas>0){
+       while ($row = mysqli_fetch_assoc($exibe_comentario)){
+           echo "<ul>";
+           echo "<li style='color:green; font-size:18px; list-style-type:none;'>".ucwords(str_replace("_"," ",$row['nome']))."</li>";
+          
+           echo "<li style='color:white; list-style-type:none; font-size:10px;'>".$row['comentario']."</li>";
+           echo "</ul>";
+           echo "<br/><br/>";
+  
+        }
+    }
+        /*for($i==0;$i<$exibe_comentario_linhas;$i++){
+            echo $exibe_comentario['nome'];
+            echo "<br/>";
+            echo $exibe_comentario['comentario'].'<br><br>';
+        }*/
+
+
+
+
+
+
+
+
+
+echo'</div>';//fecha a div da url
+
+}
+
+
+
+/*-------------------------------- ALTERADO EM 22-12-2018 ---------------------------*/
+
+
 //echo'</form>';
 
 
@@ -1785,15 +1887,13 @@ echo'<input type="hidden" name="url" value="'.$url.'"/>';
 echo'<button type="submit" name="comprar" value="Comprar" style="float:right; margin-right:15px; margin-left;15px; border-radius:80px; background-color:white; width:80%;">Comprar</button>
 
 </form>*/
-
 echo'
 </div>
 </span>
 <br/><br/>
 ';
 }
-echo'</div>';   
-}
+
 
 else{
     echo 'ADICIONE PARCEIROS PARA QUE ELES MOSTREM SEUS PRODUTOS AQUI!';
@@ -3131,7 +3231,57 @@ echo'';
     <button type="button" name="comprar" value="Comprar"  style="float:right; margin-right:15px; margin-left;15px; border-radius:80px; background-color:white; width:80%;">Comprar</button>
     </a>';
     
+    /*-------------------------------- ALTERADO EM 22-12-2018 ---------------------------*/
+
+$_SESSION['usuario']==$perfil;
+echo'<form name="comentario" method="POST" action="../../comentario_enviado.php">
+    <textarea name="comentario" id="comentario" value="" rows="4" cols="22" placeholder="Comente e pressione ENTER" style="margin-left:20px; margin-top:10px;"></textarea>
+    <input type="hidden" name="perfil" id="perfil" value="'.$perfil.'" />
+    <input type="hidden" name="nomeProduto" id="nomeProduto" value="'.$nomeProduto.'"/>';
     
+
+
+echo'</form>';
+
+
+         
+$exibe_comentario=mysqli_query($iconexao,"SELECT * FROM _comentarios WHERE produto = '$nomeProduto'");
+
+       $exibe_comentario_linhas=mysqli_num_rows($exibe_comentario);
+       //$exibe_comentario=mysql_fetch_assoc($exibe_comentario);
+    if($exibe_comentario_linhas>0){
+       while ($row = mysqli_fetch_assoc($exibe_comentario)){
+           echo "<ul>";
+           echo "<li style='color:green; font-size:18px; list-style-type:none;'>".ucwords(str_replace("_"," ",$row['nome']))."</li>";
+          
+           echo "<li style='color:white; list-style-type:none; font-size:10px;'>".$row['comentario']."</li>";
+           echo "</ul>";
+           echo "<br/><br/>";
+  
+        }
+    }
+        /*for($i==0;$i<$exibe_comentario_linhas;$i++){
+            echo $exibe_comentario['nome'];
+            echo "<br/>";
+            echo $exibe_comentario['comentario'].'<br><br>';
+        }*/
+
+
+
+
+
+
+
+
+
+echo'</div>';//fecha a div da url
+
+}
+
+
+
+/*-------------------------------- ALTERADO EM 22-12-2018 ---------------------------*/
+
     //echo'</form>';
     //ESSE É O FORM ORIGINAL DE ACIONAMENTO DA PAGINA
     /*<form name="produtos" method="post" action="../../obterDados.php">';
@@ -3154,8 +3304,7 @@ echo'';
     <br/><br/>
     ';
     }
-    echo'</div>';   
-    }
+ 
     
     else{
         echo '<h3>ADICIONE PARCEIROS PARA QUE ELES MOSTREM SEUS PRODUTOS AQUI!</h3>';
@@ -3182,8 +3331,8 @@ echo '<input type="hidden" name="minhaSenha" id="minhaSenha" value='.$password.'
 echo'</div>';
 
 
-
 }
+
 ?>
 </td></tr></table>
 
