@@ -20,7 +20,7 @@ $exibe_comentario=mysqli_query($iconexao,"SELECT * FROM _comentarios JOIN ".$per
 
 
 
-echo"<button type='button' name='voltar' onclick='history.go(-1);'>Voltar</button><br><br>";
+
 
 
 
@@ -68,6 +68,47 @@ else{
 
 
 }
+
+
+
+
+$buscacredenciais_tipo=mysqli_query($iconexao,"SELECT tipo FROM _tudo WHERE tituloPerfil='$perfilNotifica'");
+$buscacredenciais_tipo=mysqli_fetch_assoc($buscacredenciais_tipo);
+$tipo=$buscacredenciais_tipo['tipo'];
+
+
+if($tipo=="usuario"){
+    $buscacredenciais_notif=mysqli_query($iconexao,"SELECT * FROM _tudo WHERE tituloPerfil='$perfilNotifica'");
+    $buscacredenciais_notif=mysqli_fetch_assoc($buscacredenciais_notif);
+    $email=$buscacredenciais_notif['email'];
+    $email=explode("@",$email);
+    $emailnome=$email[0];
+    $emaildominio=$email[1];
+    
+    echo"<br><br>";
+    echo"<form name='voltar' method='post' action='usuarios/".$perfilNotifica."/index.php?tipo=".$tipo."'>";
+    echo"<input type='hidden' name='c_email' value='".$emailnome."'/>";
+    echo"<input type='hidden' name='dominio' value='".$emaildominio."'/>";
+    echo"<input type='hidden' name='c_senha' value='".base64_decode($buscacredenciais_notif['senha'])."'/>";
+    echo"<button type='submit' name='voltar'>Voltar ao usuario</button>";
+    echo"</form>";
+    
+ }
+ else{
+    $buscacredenciais_notif=mysqli_query($iconexao,"SELECT * FROM _tudo WHERE tituloPerfil='$perfilNotifica'");
+    $buscacredenciais_notif=mysqli_fetch_assoc($buscacredenciais_notif);
+    $email=$buscacredenciais_notif['email'];
+    $email=explode("@",$email);
+    $emailnome=$email[0];
+    $emaildominio=$email[1];
+    echo"<br><br>";
+    echo"<form name='voltar' method='post' action='usuarios/".$perfilNotifica."/index.php?tipo=".$tipo."'>";
+    echo"<input type='hidden' name='c_email' value='".$emailnome."'/>";
+    echo"<input type='hidden' name='dominio' value='".$emaildominio."'/>";
+    echo"<input type='hidden' name='c_senha' value='".base64_decode($buscacredenciais_notif['senha'])."'/>";
+    echo"<button type='submit' name='voltar'>Voltar ao usuario</button>";
+    echo"</form>";
+ }
     
 
  ?>

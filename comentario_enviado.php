@@ -10,9 +10,15 @@ include("based.php");
 $comentario=$_POST["comentario"];
 $perfil=$_POST["perfil"];
 $nomeProduto=$_POST["nomeProduto"];
-
+//$login=$_POST["c_email"];
+//$password=$_POST["c_senha"];
+$tipo=$_POST["tipo"];
  
- $exibe_comentario=mysqli_query($iconexao,"SELECT * FROM _comentarios WHERE produto = '$nomeProduto'");
+
+
+
+
+ $exibe_comentario=mysqli_query($iconexao,"SELECT * FROM _comentarios WHERE produto = '$nomeProduto' AND comentario ='$comentario'");
 
  $exibe_comentario_linhas=mysqli_num_rows($exibe_comentario);
  $exibe_comentario=mysqli_fetch_assoc($exibe_comentario);
@@ -26,12 +32,12 @@ $nomeProduto=$_POST["nomeProduto"];
  }
 
 
- $exibe_comentario=mysqli_query($iconexao,"SELECT * FROM _comentarios WHERE produto = '$nomeProduto'");
+ $exibe_comentario_exibe=mysqli_query($iconexao,"SELECT * FROM _comentarios WHERE produto = '$nomeProduto' AND nome ='$perfil'");
  
-        $exibe_comentario_linhas=mysqli_num_rows($exibe_comentario);
+ $exibe_comentario_linhas_exibe=mysqli_num_rows($exibe_comentario_exibe);
         //$exibe_comentario=mysql_fetch_assoc($exibe_comentario);
-     if($exibe_comentario_linhas>0){
-        while ($row = mysqli_fetch_array($exibe_comentario)){
+     if($exibe_comentario_linhas_exibe>0){
+        while ($row = mysqli_fetch_array($exibe_comentario_exibe)){
             
             echo "<li style='color:green; font-size:18px; list-style-type:none;' >".ucwords(str_replace("_"," ",$row['nome']))."</li>";
            
@@ -48,8 +54,37 @@ $nomeProduto=$_POST["nomeProduto"];
     echo "<br/>";
     echo strip_tags($exibe_comentario["comentario"]);
      */
-    echo"<br><br>";
-    echo"<button type='button' name='voltar' onclick='history.go(-1);'>Voltar</button>";
-    
+     if($tipo=="usuario"){
+        $buscacredenciais=mysqli_query($iconexao,"SELECT * FROM _tudo WHERE tituloPerfil='$perfil'");
+        $buscacredenciais=mysqli_fetch_assoc($buscacredenciais);
+        $email=$buscacredenciais['email'];
+        $email=explode("@",$email);
+        $emailnome=$email[0];
+        $emaildominio=$email[1];
+        
+        echo"<br><br>";
+        echo"<form name='voltar' method='post' action='usuarios/".$perfil."/index.php?tipo=".$tipo."'>";
+        echo"<input type='hidden' name='c_email' value='".$emailnome."'/>";
+        echo"<input type='hidden' name='dominio' value='".$emaildominio."'/>";
+        echo"<input type='hidden' name='c_senha' value='".base64_decode($buscacredenciais['senha'])."'/>";
+        echo"<button type='submit' name='voltar'>Voltar ao usuario</button>";
+        echo"</form>";
+        
+     }
+     else{
+        $buscacredenciais=mysqli_query($iconexao,"SELECT * FROM _tudo WHERE tituloPerfil='$perfil'");
+        $buscacredenciais=mysqli_fetch_assoc($buscacredenciais);
+        $email=$buscacredenciais['email'];
+        $email=explode("@",$email);
+        $emailnome=$email[0];
+        $emaildominio=$email[1];
+        echo"<br><br>";
+        echo"<form name='voltar' method='post' action='usuarios/".$perfil."/index.php?tipo=".$tipo."'>";
+        echo"<input type='hidden' name='c_email' value='".$emailnome."'/>";
+        echo"<input type='hidden' name='dominio' value='".$emaildominio."'/>";
+        echo"<input type='hidden' name='c_senha' value='".base64_decode($buscacredenciais['senha'])."'/>";
+        echo"<button type='submit' name='voltar'>Voltar ao usuario</button>";
+        echo"</form>";
+     }
 
  ?>

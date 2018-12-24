@@ -308,14 +308,7 @@ session_start();
 $login=$_POST['c_email']."@".$_POST['dominio'];
 $password=isset($_POST['c_senha'])?$_POST['c_senha']:null;
 
-$_SESSION['email']=$login;
-$_SESSION['senha']=$password;
-//$login=$_GET['c_email']."@".$_GET['dominio'];
-//$password=$_GET['e'];
 
-
-$login=$_SESSION['email'];
-$password=$_SESSION['senha'];
 
 
 
@@ -401,7 +394,7 @@ $perfilNotifica=strtolower(str_replace(' ','_',$perfil));
      $redirecionaNotific=$redirecionaNotific["tipo"];
     
      if($exibe_comentario_linhas > 0){
-         echo'<div class="alert alert-danger" style="widt:1130px;">Voc&ecirc; recebeu novos coment&aacute;rios sobre seu produto!</div>';
+         echo'<div class="alert alert-danger" style="width:1130px;">Voc&ecirc; recebeu novos coment&aacute;rios sobre seu produto!</div>';
          echo"<br>";
          echo"<form name='notificaçoes' method='post' action='../../comentarios_produtos.php'/>";
          echo"<input type='hidden' name='nome' value='".$perfilNotifica."'/>";
@@ -1815,7 +1808,8 @@ echo'<a href="http://www.tele-tudo.com/produtos?CEP='.$CEP.'&PESQ='.$PESQ.'&Tpe=
 <button type="button" name="comprar" value="Comprar"  style="float:right; margin-right:15px; margin-left;15px; border-radius:80px; background-color:white; width:80%;">Comprar</button>
 </a>';
 
-
+$selecionatipo=mysqli_query($iconexao,"SELECT tipo FROM _tudo WHERE tipo='usuario'");
+$selecionatipo=mysqli_fetch_assoc($selecionatipo);
 
 /*-------------------------------- ALTERADO EM 22-12-2018 ---------------------------*/
 //echo'<script src="../../js/incluiComentario.js"></script>';
@@ -1823,8 +1817,8 @@ echo"<div style='padding:12px;'>";
 echo'<form name="comentario" method="POST" action="../../comentario_enviado.php">
     <input type="text" multiline name="comentario" id="comentario" value="" placeholder="Comente e pressione ENTER" style="width:200px; border:none; border-radius:6px; margin-left:20px; margin-top:10px;"/>
     <input type="hidden" name="perfil" id="perfil" value="'.$perfil.'" />
-    <input type="hidden" name="nomeProduto" id="nomeProduto" value="'.$nomeProduto.'"/>';
-    
+    <input type="hidden" name="nomeProduto" id="nomeProduto" value="'.$nomeProduto.'"/>
+    <input type="hidden" name="tipo" id="tipo" value="'.$selecionatipo['tipo'].'"/>';
 
 
 echo'</form>';
@@ -1838,12 +1832,14 @@ $exibe_comentario=mysqli_query($iconexao,"SELECT * FROM _comentarios WHERE produ
     if($exibe_comentario_linhas>0){
        while ($row = mysqli_fetch_assoc($exibe_comentario)){
            ////echo "<ul>";
-        
-           echo "<span style='color:green; font-size:12px; list-style-type:none; margin-left:20px' >Voc&ecirc; disse:</span>";
-          
+           if($row['nome']==$perfil){echo "<span style='color:green; font-size:12px; list-style-type:none; margin-left:20px' >Voc&ecirc; disse:</span>";
+           echo "<span style='color:white; list-style-type:none; font-size:12px; margin-left:20px; width:800px;'>".$row['comentario']."</span>";
+           }
+           else{
+           echo "<span style='color:green; font-size:12px; list-style-type:none; margin-left:20px' >".ucwords(str_replace("_"," ",$row['nome']))."</span>";
            echo "<span style='color:white; list-style-type:none; font-size:12px; margin-left:20px; width:800px;'>".$row['comentario']."</span>";
            //echo "</ul>";
-          
+           }
            echo "<br/><br/>";
   
         }
@@ -1923,6 +1919,41 @@ echo'</div>';
 
 ?>
 </td></tr></table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3234,40 +3265,45 @@ echo'';
     echo'<a href="http://www.tele-tudo.com/produtos?CEP='.$CEP.'&PESQ='.$PESQ.'&Tpe=0&id='.$id2.'&idPedido='.$idPedido.'">
     <button type="button" name="comprar" value="Comprar"  style="float:right; margin-right:15px; margin-left;15px; border-radius:80px; background-color:white; width:80%;">Comprar</button>
     </a>';
+
+
+
+    $selecionatipo=mysqli_query($iconexao,"SELECT tipo FROM _tudo WHERE tipo='fornecedor'");
+    $selecionatipo=mysqli_fetch_assoc($selecionatipo);
     
     /*-------------------------------- ALTERADO EM 22-12-2018 ---------------------------*/
-
-$_SESSION['usuario']==$perfil;
-echo'<form name="comentario" method="POST" action="../../comentario_enviado.php">
-    <textarea name="comentario" id="comentario" value="" rows="4" cols="22" placeholder="Comente e pressione ENTER" style="margin-left:20px; margin-top:10px;"></textarea>
-    <input type="hidden" name="perfil" id="perfil" value="'.$perfil.'" />
-    <input type="hidden" name="nomeProduto" id="nomeProduto" value="'.$nomeProduto.'"/>';
+    //echo'<script src="../../js/incluiComentario.js"></script>';
+    echo"<div style='padding:12px;'>";
+    echo'<form name="comentario" method="POST" action="../../comentario_enviado.php">
+        <input type="text" multiline name="comentario" id="comentario" value="" placeholder="Comente e pressione ENTER" style="width:200px; border:none; border-radius:6px; margin-left:20px; margin-top:10px;"/>
+        <input type="hidden" name="perfil" id="perfil" value="'.$perfil.'" />
+        <input type="hidden" name="nomeProduto" id="nomeProduto" value="'.$nomeProduto.'"/>
+        <input type="hidden" name="tipo" id="tipo" value="'.$selecionatipo['tipo'].'"/>';
     
-
-
-echo'</form>';
-
+    
+    echo'</form>';
 
          
-$exibe_comentario=mysqli_query($iconexao,"SELECT * FROM _comentarios WHERE produto = '$nomeProduto' ORDER BY id DESC LIMIT 4");
+$exibe_comentario=mysqli_query($iconexao,"SELECT * FROM _comentarios WHERE produto = '$nomeProduto' ORDER BY id DESC LIMIT 4 ");
 
        $exibe_comentario_linhas=mysqli_num_rows($exibe_comentario);
        //$exibe_comentario=mysql_fetch_assoc($exibe_comentario);
     if($exibe_comentario_linhas>0){
        while ($row = mysqli_fetch_assoc($exibe_comentario)){
            ////echo "<ul>";
-        
-           echo "<span style='color:green; font-size:12px; list-style-type:none; margin-left:20px' >Voc&ecirc; disse:</span>";
-          
+           if($row['nome']==$perfil){echo "<span style='color:green; font-size:12px; list-style-type:none; margin-left:20px' >Voc&ecirc; disse:</span>";
+           echo "<span style='color:white; list-style-type:none; font-size:12px; margin-left:20px; width:800px;'>".$row['comentario']."</span>";
+           }
+           else{
+           echo "<span style='color:green; font-size:12px; list-style-type:none; margin-left:20px' >".ucwords(str_replace("_"," ",$row['nome']))."</span>";
            echo "<span style='color:white; list-style-type:none; font-size:12px; margin-left:20px; width:800px;'>".$row['comentario']."</span>";
            //echo "</ul>";
-          
+           }
            echo "<br/><br/>";
   
         }
     }
- echo"</div>";  
-
+ echo"</div>";
 
 
 

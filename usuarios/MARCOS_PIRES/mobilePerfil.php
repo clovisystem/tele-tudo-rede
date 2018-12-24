@@ -1272,9 +1272,44 @@ echo'<br/><a href="http://www.tele-tudo.com/produtos?CEP='.$CEP.'&PESQ='.$PESQ.'
 </a><br/><br/>';
 
 
+
+$selecionatipo=mysqli_query($iconexao,"SELECT tipo FROM _tudo WHERE tipo='usuario'");
+$selecionatipo=mysqli_fetch_assoc($selecionatipo);
+
+/*-------------------------------- ALTERADO EM 22-12-2018 ---------------------------*/
+//echo'<script src="../../js/incluiComentario.js"></script>';
+echo"<div style='padding:12px;'>";
+echo'<form name="comentario" method="POST" action="../../comentario_enviado.php">
+    <input type="text" multiline name="comentario" id="comentario" value="" placeholder="Comente e pressione ENTER" style="width:200px; border:none; border-radius:6px; margin-left:20px; margin-top:10px;"/>
+    <input type="hidden" name="perfil" id="perfil" value="'.$perfil.'" />
+    <input type="hidden" name="nomeProduto" id="nomeProduto" value="'.$nomeProduto.'"/>
+    <input type="hidden" name="tipo" id="tipo" value="'.$selecionatipo['tipo'].'"/>';
+
+
+echo'</form>';
+
 //echo'</form>';
 
+$exibe_comentario=mysqli_query($iconexao,"SELECT * FROM _comentarios WHERE produto = '$nomeProduto' ORDER BY id DESC LIMIT 4 ");
 
+       $exibe_comentario_linhas=mysqli_num_rows($exibe_comentario);
+       //$exibe_comentario=mysql_fetch_assoc($exibe_comentario);
+    if($exibe_comentario_linhas>0){
+       while ($row = mysqli_fetch_assoc($exibe_comentario)){
+           ////echo "<ul>";
+           if($row['nome']==$perfil){echo "<span style='color:green; font-size:12px; list-style-type:none; margin-left:20px' >Voc&ecirc; disse:</span>";
+           echo "<span style='color:white; list-style-type:none; font-size:12px; margin-left:20px; width:800px;'>".$row['comentario']."</span>";
+           }
+           else{
+           echo "<span style='color:green; font-size:12px; list-style-type:none; margin-left:20px' >".ucwords(str_replace("_"," ",$row['nome']))."</span>";
+           echo "<span style='color:white; list-style-type:none; font-size:12px; margin-left:20px; width:800px;'>".$row['comentario']."</span>";
+           //echo "</ul>";
+           }
+           echo "<br/><br/>";
+  
+        }
+    }
+ echo"</div>";
 
 //ESSE É O FORM ORIGINAL DE ACIONAMENTO DA PAGINA
 /*<form name="produtos" method="post" action="../../obterDados.php">';
@@ -1297,8 +1332,7 @@ echo'
 <br/><br/>
 ';
 }
-echo'</div>';   
-}
+
 
 else{
     echo 'ADICIONE PARCEIROS PARA QUE ELES MOSTREM SEUS PRODUTOS AQUI!';
@@ -1329,21 +1363,26 @@ echo'</div>';
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 </main>
 </div><!--row-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2315,10 +2354,42 @@ echo'<br/><a href="http://www.tele-tudo.com/produtos?CEP='.$CEP.'&PESQ='.$PESQ.'
 <button type="button" name="comprar" value="Comprar"  style="float:right; margin-right:0px; margin-left:0px; border-radius:80px; background-color:white; width:120%;">Comprar</button>
 </a><br/><br/>';
 
+$selecionatipo=mysqli_query($iconexao,"SELECT tipo FROM _tudo WHERE tipo='fornecedor'");
+$selecionatipo=mysqli_fetch_assoc($selecionatipo);
 
+/*-------------------------------- ALTERADO EM 22-12-2018 ---------------------------*/
+//echo'<script src="../../js/incluiComentario.js"></script>';
+echo"<div style='padding:12px;'>";
+echo'<form name="comentario" method="POST" action="../../comentario_enviado.php">
+    <input type="text" multiline name="comentario" id="comentario" value="" placeholder="Comente e pressione ENTER" style="width:200px; border:none; border-radius:6px; margin-left:20px; margin-top:10px;"/>
+    <input type="hidden" name="perfil" id="perfil" value="'.$perfil.'" />
+    <input type="hidden" name="nomeProduto" id="nomeProduto" value="'.$nomeProduto.'"/>
+    <input type="hidden" name="tipo" id="tipo" value="'.$selecionatipo['tipo'].'"/>';
+
+
+echo'</form>';
 //echo'</form>';
 
+$exibe_comentario=mysqli_query($iconexao,"SELECT * FROM _comentarios WHERE produto = '$nomeProduto' ORDER BY id DESC LIMIT 4 ");
 
+       $exibe_comentario_linhas=mysqli_num_rows($exibe_comentario);
+       //$exibe_comentario=mysql_fetch_assoc($exibe_comentario);
+    if($exibe_comentario_linhas>0){
+       while ($row = mysqli_fetch_assoc($exibe_comentario)){
+           ////echo "<ul>";
+           if($row['nome']==$perfil){echo "<span style='color:green; font-size:12px; list-style-type:none; margin-left:20px' >Voc&ecirc; disse:</span>";
+           echo "<span style='color:white; list-style-type:none; font-size:12px; margin-left:20px; width:800px;'>".$row['comentario']."</span>";
+           }
+           else{
+           echo "<span style='color:green; font-size:12px; list-style-type:none; margin-left:20px' >".ucwords(str_replace("_"," ",$row['nome']))."</span>";
+           echo "<span style='color:white; list-style-type:none; font-size:12px; margin-left:20px; width:800px;'>".$row['comentario']."</span>";
+           //echo "</ul>";
+           }
+           echo "<br/><br/>";
+  
+        }
+    }
+ echo"</div>";
 
 //ESSE É O FORM ORIGINAL DE ACIONAMENTO DA PAGINA
 /*<form name="produtos" method="post" action="../../obterDados.php">';
@@ -2341,8 +2412,7 @@ echo'
 <br/><br/>
 ';
 }
-echo'</div>';   
-}
+
 
 else{
     echo 'ADICIONE PARCEIROS PARA QUE ELES MOSTREM SEUS PRODUTOS AQUI!';
@@ -2369,19 +2439,6 @@ echo'</div>';
 
 ?>
 </td></tr></table>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
