@@ -12,7 +12,15 @@
 
  </HEAD>
  <BODY   style="background-image:url('BACKGROUNDS/Compras.jpg'); background-size:cover;background-repeat:no-repeat; background-attachment:fixed; height:100vh;"  >
+ <div id="cabecalho" align="right" style="background:transparent; color:white; font-weight:bold;">
 
+
+<?php
+    include ("date.php");
+?>
+
+
+</div>
 <?php
 
 $contato=$_POST["contato"];

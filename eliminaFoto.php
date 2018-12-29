@@ -4,6 +4,15 @@
  <link rel="shortcut icon" href="MY_WEB-LOGO/favicon.ico" type="image/x-icon"/>
 </HEAD>
 <BODY>
+<div id="cabecalho" align="right" style="background:transparent; color:white; font-weight:bold;">
+
+
+<?php
+    include ("date.php");
+?>
+
+
+</div>
 <?php
 
  //@session_start();
