@@ -5,7 +5,8 @@
 
 include("Localizacao/class.ipdetails.php");
 ini_set("display_errors",0);
-$ip = $_SERVER['HTTP_CLIENT_IP']; 
+//$ip = $_SERVER['HTTP_CLIENT_IP']; //FUNCIONA EM LOCALHOST
+$ip = $_SERVER['REMOTE_ADDR']; //FUNCIONA EM PRODUÇÃO
 //$ip = get_client_ip();
 //$ip = "179.158.169.221";
 $ipdetails = new ipdetails($ip); 

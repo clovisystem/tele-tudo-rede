@@ -79,7 +79,7 @@ $tipo=$_POST["tipo"];
         $emailnome=$email[0];
         $emaildominio=$email[1];
         echo"<br><br>";
-        echo"<form name='voltar' method='post' action='usuarios/".$perfil."/index.php?tipo=".$tipo."'>";
+        echo"<form name='voltar' method='post' action='empresas/".$perfil."/index.php?tipo=".$tipo."'>";
         echo"<input type='hidden' name='c_email' value='".$emailnome."'/>";
         echo"<input type='hidden' name='dominio' value='".$emaildominio."'/>";
         echo"<input type='hidden' name='c_senha' value='".base64_decode($buscacredenciais['senha'])."'/>";

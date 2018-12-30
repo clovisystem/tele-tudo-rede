@@ -683,7 +683,7 @@ echo'<tr><td width="90%" colspan="2" align="left" bgcolor="'.$cor.'">
 <input type="hidden" name="logar" value="'.$login.'"/>
 </form>
 <a href="../../localizaContatos.php?login='.$perfil.'&tipo='.$tipo.'"><button type="button" name="localizar" style="border-radius:80px; background-color:white; margin-left:36px;">
-LOCALIZAR SEUS PARCEIROS</button></a>|<a href="../../localizaContatos.php?login='.$perfil.'">
+LOCALIZAR SEUS PARCEIROS</button></a>|<a href="../../localizaContatos.php?login='.$perfil.'&tipo='.$tipo.'">
 <button type="button" name="Mensagem" style="border-radius:80px; background-color:white; margin-left:52px;">COMPRAR</button></a>';
 
 
@@ -1371,7 +1371,7 @@ echo'</td></tr>
 <form method="POST" enctype="multipart/form-data" action="../../upload.php?perfil" > ';
 
 
-echo'<input name="arquivo" type="file" id="arquivo"  value="Escolher arquivo" style="margin-left:15px;" />
+echo'<input name="arquivo" type="file" id="arquivo"  class="btn btn-primary" value="Escolher foto" style="margin-left:15px;" />
 <input name="nome" type="hidden" id="nome" value="';
 ?>
 <?php
@@ -1410,7 +1410,7 @@ echo'<br/>
 echo'&nbsp;&nbsp;&nbsp;&nbsp;<b>Nome do produto</b><br/>  &nbsp;&nbsp;<input type="text"  required style="margin-top:0px;margin-left:10px;" size="40" name="nomeProduto" placeholder="Ex.:notebook."/>&nbsp;&nbsp;<br/><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<b>Descrição</b> &nbsp;&nbsp;<br/><textarea  required style="margin-top:15px;margin-left:17px;" maxlength=200 placeholder="A descrição do produto aqui com no máximo 200 caracteres e seu valor." name="descricaoProduto" cols="41.5" rows="7" wrap="on" scrolling="yes"></textarea><br/><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<b>URL do produto:</b>  <br/>&nbsp;&nbsp;<input type="url"   style="margin-top:0px;margin-left:10px;" size="40" name="urlProduto" placeholder="Ex.:http://www.seusite.com/seuproduto/"/>&nbsp;&nbsp;<br/><br/>';
-echo '<input type="submit" name="Submit" value="Enviar Produto" style="margin-left:15px;"/>
+echo '<input type="submit" name="Submit" value="Enviar Produto" style="margin-left:15px;" class="btn btn-primary"/>
  <br/>';
 
 

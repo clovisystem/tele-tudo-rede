@@ -303,6 +303,54 @@ margin-bottom:8px;
 	 $tipo=$tipo['tipo'];
 	
 	
+
+
+
+
+
+
+
+
+ $tipo=$_GET['tipo'];
+ //echo $tipo;
+ //echo strtolower($login);
+ if($tipo=="usuario"){
+	 $buscacredenciais=mysqli_query($iconexao,"SELECT * FROM _tudo WHERE tituloPerfil='".strtolower($login)."'");
+	 $buscacredenciais=mysqli_fetch_assoc($buscacredenciais);
+	 $email=$buscacredenciais['email'];
+	 $email=explode("@",$email);
+	 $emailnome=$email[0];
+	 $emaildominio=$email[1];
+	 
+	 echo"<br><br>";
+	 echo"<form name='voltar' method='post' action='usuarios/".strtolower($login)."/index.php?tipo=".$tipo."'>";
+	 echo"<input type='hidden' name='c_email' value='".$emailnome."'/>";
+	 echo"<input type='hidden' name='dominio' value='".$emaildominio."'/>";
+	 echo"<input type='hidden' name='c_senha' value='".base64_decode($buscacredenciais['senha'])."'/>";
+	 echo"<button type='submit' name='voltar'>Voltar ao usuario</button>";
+	 echo"</form>";
+ }
+ else{
+	$buscacredenciais=mysqli_query($iconexao,"SELECT * FROM _tudo WHERE tituloPerfil='".strtolower($login)."'");
+	$buscacredenciais=mysqli_fetch_assoc($buscacredenciais);
+	$email=$buscacredenciais['email'];
+	$email=explode("@",$email);
+	$emailnome=$email[0];
+	$emaildominio=$email[1];
+	
+	echo"<br><br>";
+	echo"<form name='voltar' method='post' action='empresas/".strtolower($login)."/index.php?tipo=".$tipo."'>";
+	echo"<input type='hidden' name='c_email' value='".$emailnome."'/>";
+	echo"<input type='hidden' name='dominio' value='".$emaildominio."'/>";
+	echo"<input type='hidden' name='c_senha' value='".base64_decode($buscacredenciais['senha'])."'/>";
+	echo"<button type='submit' name='voltar'>Voltar ao usuario</button>";
+	echo"</form>";
+ }
+
+
+
+
+
 	?>
 	
 	
@@ -337,10 +385,10 @@ margin-bottom:8px;
 	<br/>
 	
 	
-	<!--<input type="text" name="contato" value="" size="30"/><br/><br/>
-	<button type="submit" name="pesquisar" value="Localizar" />Localizar</button>| --><input type="reset" value="Limpar" name="limpar"/> | <input type="button" name="voltar1" value="Voltar" onclick="history.go(-1)"/>
+<input type="reset" value="Limpar" name="limpar"/>
+<!-- | <input type="button" name="voltar1" value="Voltar" onclick="history.go(-1)"/>-->
 	<br/>
-	
+	<br/>
 	
 	
 	
@@ -381,15 +429,29 @@ margin-bottom:8px;
 		_tudo.tituloPerfil LIKE '%$contato%'
 		 AND _tudo.tituloPerfil=".$contato.".contatos LIMIT 3;",$conexao);
 		
-		While(list($tituloPerfil,$cidade,$imagem)=@mysql_fetch_array($sql))
-		echo '<a href="localizaContatos2mobile.php?login='.$_GET["login"].'&nome='.$tituloPerfil.'&tipo='.$tipo.'">
-		<span id="localizaContato" class="select"   style="border:none; background:#ad0a0a; font-size:18px; color:blue; padding:8px 20px 6px 2px;margin-left:15px; font-weight:bold; width:93%;" value="'.str_replace("_"," ",$tituloPerfil).'"><img src="../'.$imagem.'"
-		width="40" height="40" bordercolor="#FF6600"/>&nbsp;&nbsp;'.str_replace("_"," ",$tituloPerfil).'
-		&nbsp;&nbsp;-&nbsp;&nbsp;'.$cidade.'&nbsp;&nbsp;</span><br/>';
-		echo '</div></a>';
-		echo'</a>';
-	
-		echo"<script>if(document.getElementById('radio').style.visibility='visible'){document.getElementById('radio').style.visibility='hidden'}; </script>";
+
+		 $sqlLinhas=@mysql_num_rows($sql);
+		 
+					 
+		 
+					 if($sqlLinhas == 0){
+						 echo 'Sua pesquisa não retornou o parceiro especificado, veja abaixo outros parceiros.';
+						 echo $contato;
+					 }
+					 else{
+						 
+						 While(list($tituloPerfil,$cidade,$imagem)=@mysql_fetch_array($sql))
+						 
+						 echo '<a href="localizaContatos2.php?login='.$_GET["login"].'&nome='.$tituloPerfil.'&tipo='.$tipo.'">
+						 <span id="localizaContato" class="select"   style="border:none; background:#ad0a0a; font-size:18px; color:blue; padding:8px 20px 6px 2px;margin-left:15px; font-weight:bold; width:93%;" value="'.str_replace("_"," ",$tituloPerfil).'"><img src="'.$imagem.'"
+						 width="40" height="40" bordercolor="#FF6600"/>&nbsp;&nbsp;'.str_replace("_"," ",$tituloPerfil).'
+						 &nbsp;&nbsp;-&nbsp;&nbsp;'.$cidade.'&nbsp;&nbsp;</span><br/>';
+						 echo '</div></a>';
+						 echo'</a>';
+			 
+						 echo"<script>if(document.getElementById('radio').style.visibility='visible'){document.getElementById('radio').style.visibility='hidden'}; </script>";
+				 
+					 }
 		
 		}
 		?>
@@ -415,12 +477,7 @@ margin-bottom:8px;
 	
 	?>
 	
-	
-	
-	
-	
-	
-	
+
 	
 	
 	
@@ -478,24 +535,13 @@ margin-bottom:8px;
 	 $LinhaContato=@mysql_fetch_array($exibeContato);
 	 //if($nullLinhaContato['contatos']==0){echo ' ';}
 	 //else{
-	
-	
-	
-	
-	
-	
-	
+
 	
 		?>
 		
 	<?php
 	
-	
-	
-	
-	
-	
-	
+
 	 
 	 $colunas=3;
 	
@@ -542,26 +588,7 @@ margin-bottom:8px;
 	
 	</section><!--Consulta USUARIO de usuario-->
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	<section id="fornecedor" style="visibility:hidden; float:left; position:absolute; margin-top:0px; margin-left:20px;">
 	<?php
@@ -712,6 +739,34 @@ margin-bottom:8px;
 	
 	
 	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 	
 	
@@ -746,8 +801,9 @@ margin-bottom:8px;
 	
 	
 	<!--<input type="text" name="contato" value="" size="30"/><br/><br/>
-	<button type="submit" name="pesquisar" value="Localizar" />Localizar</button>| --><input type="reset" value="Limpar" name="limpar"/> | <input type="button" 
-	name="voltar1" value="Voltar" onclick="history.go(-1)"/>
+	<button type="submit" name="pesquisar" value="Localizar" />Localizar</button>| --><input type="reset" value="Limpar" name="limpar"/>
+	<!-- | <input type="button" 
+	name="voltar1" value="Voltar" onclick="history.go(-1)"/>-->
 	<br/><br/>
 	
 	
@@ -825,16 +881,33 @@ margin-bottom:8px;
 		$contato=str_replace(" ","_",$contato);
 		//$contato1=$contato;
 		//$contato1=str_replace("_"," ",$contato1);
-		$sql=@mysql_query("SELECT _users.tituloPerfil,_users.cidade,".$contato.".imagem FROM _users,".$contato." WHERE
+		$sqlForn=@mysql_query("SELECT _users.tituloPerfil,_users.cidade,".$contato.".imagem FROM _users,".$contato." WHERE
 		_users.tituloPerfil LIKE '%$contato%'
 		 AND _users.tituloPerfil=".$contato.".contatos LIMIT 3 ;",$conexao);
-		While(list($tituloPerfil,$cidade,$imagem)=@mysql_fetch_array($sql))
-		echo '<a href="localizaContatos2mobile.php?login='.$_GET["login"].'&nome='.$tituloPerfil.'&tipo='.$tipo.'">
-		<span id="localizaContato" class="select"   style="border:none; background:#CCCCCC; font-size:18px; color:blue; padding:8px 20px 6px 2px;margin-left:15px; font-weight:bold; width:600px;" value="'.str_replace("_"," ",$tituloPerfil).'"><img src="'.$imagem.'"
-		width="40" height="40" bordercolor="#FF6600"/>&nbsp;&nbsp;'.str_replace("_"," ",$tituloPerfil).'
-		&nbsp;&nbsp;-&nbsp;&nbsp;'.$cidade.'&nbsp;&nbsp;</span><br/>';
-		echo '</div></a>';
-		echo'</a>';
+
+		 $sqlLinhasForn=@mysql_num_rows($sqlForn);
+		 
+					 
+		 
+					 if($sqlLinhasForn == 0){
+						 echo 'Sua pesquisa não retornou o parceiro especificado, veja abaixo outros parceiros.';
+						 echo $contato;
+					 }
+					 else{
+						 
+						 While(list($tituloPerfil,$cidade,$imagem)=@mysql_fetch_array($sqlForn))
+						 
+						 echo '<a href="localizaContatos2.php?login='.$_GET["login"].'&nome='.$tituloPerfil.'&tipo='.$tipo.'">
+						 <span id="localizaContato" class="select"   style="border:none; background:#ad0a0a; font-size:18px; color:blue; padding:8px 20px 6px 2px;margin-left:15px; font-weight:bold; width:93%;" value="'.str_replace("_"," ",$tituloPerfil).'"><img src="'.$imagem.'"
+						 width="40" height="40" bordercolor="#FF6600"/>&nbsp;&nbsp;'.str_replace("_"," ",$tituloPerfil).'
+						 &nbsp;&nbsp;-&nbsp;&nbsp;'.$cidade.'&nbsp;&nbsp;</span><br/>';
+						 echo '</div></a>';
+						 echo'</a>';
+			 
+						 echo"<script>if(document.getElementById('radio').style.visibility='visible'){document.getElementById('radio').style.visibility='hidden'}; </script>";
+				 
+					 }
+
 		}
 		?>
 		</b>

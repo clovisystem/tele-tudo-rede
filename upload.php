@@ -43,7 +43,42 @@ include"based.php";
    // $_SESSION['c_email'];
    // $_SESSION['c_senha'];
 
+   //$nome = $_POST['nome'];
+   $tipo = $_POST['tipo'];
+   $tituloPerfil=$_POST['tituloPerfil'];
 
+   if($tipo=="usuario"){
+    $buscacredenciais=mysqli_query($iconexao,"SELECT * FROM _tudo WHERE tituloPerfil='$tituloPerfil'");
+    $buscacredenciais=mysqli_fetch_assoc($buscacredenciais);
+    $email=$buscacredenciais['email'];
+    $email=explode("@",$email);
+    $emailnome=$email[0];
+    $emaildominio=$email[1];
+    
+    echo"<br><br>";
+    echo"<form name='voltar' method='post' action='usuarios/".$tituloPerfil."/index.php?tipo=".$tipo."'>";
+    echo"<input type='hidden' name='c_email' value='".$emailnome."'/>";
+    echo"<input type='hidden' name='dominio' value='".$emaildominio."'/>";
+    echo"<input type='hidden' name='c_senha' value='".base64_decode($buscacredenciais['senha'])."'/>";
+    echo"<button type='submit' name='voltar'>Voltar ao usuario</button>";
+    echo"</form>";
+    
+ }
+ else{
+    $buscacredenciais=mysqli_query($iconexao,"SELECT * FROM _tudo WHERE tituloPerfil='$tituloPerfil'");
+    $buscacredenciais=mysqli_fetch_assoc($buscacredenciais);
+    $email=$buscacredenciais['email'];
+    $email=explode("@",$email);
+    $emailnome=$email[0];
+    $emaildominio=$email[1];
+    echo"<br><br>";
+    echo"<form name='voltar' method='post' action='empresas/".$tituloPerfil."/index.php?tipo=".$tipo."'>";
+    echo"<input type='hidden' name='c_email' value='".$emailnome."'/>";
+    echo"<input type='hidden' name='dominio' value='".$emaildominio."'/>";
+    echo"<input type='hidden' name='c_senha' value='".base64_decode($buscacredenciais['senha'])."'/>";
+    echo"<button type='submit' name='voltar'>Voltar ao usuario</button>";
+    echo"</form>";
+ }
 
 
 
@@ -66,104 +101,112 @@ $perfil=$_POST['tituloPerfil'];
 
 if ($_FILES["arquivo"] != "") {
 $arquivo = $_FILES["arquivo"];
-$arquivo=str_replace(" ","_",$arquivo);
-$pasta_dir = "acervos/".$perfil."/";//diretorio dos arquivos
-//se nao existir a pasta ele cria uma
-
-
-if(!file_exists($pasta_dir)){
-mkdir($pasta_dir);
-
-}
-
-$arquivo_nome = $pasta_dir . $arquivo["name"];
-
-// Faz o upload da imagem
-move_uploaded_file($arquivo["tmp_name"], $arquivo_nome);
-
-
-
-//conecta no banco
-
-$nome = $_POST['nome'];
-$tituloPerfil=$_POST['tituloPerfil'];
-
-
-
-
-//$query = "INSERT INTO _acervos (usuario,nomeProduto,Descricao,imagem,url) VALUES ('$tituloPerfil','$_POST[nomeProduto]','$_POST[descricaoProduto]','$arquivo_nome','$_POST[CEP]','$_POST[urlProduto]')"; // inser��o sql na tabela recados
-
-
-$query1 = "INSERT INTO _vitrine (vendedor,nomeProduto,Descricao,imagem,url) VALUES ('".strtolower($tituloPerfil)."','$_POST[nomeProduto]','$_POST[descricaoProduto]','$arquivo_nome','$_POST[urlProduto]')"; // inser��o sql na tabela recados
-
-@mysql_query($query1) or die (mysql_error());
-//@mysql_query($query) or die (mysql_error());
-
-
-
-echo "  
-
-<center><font size='3'>Foto enviada com sucesso";
-echo "</center><br>";
-echo  "<img src='$arquivo_nome' width='250'><br/>$nome<br/> <br/>";
-
-
-
-
-/*------------ALTERADO EM 15/11/2018-------------------------*/
-$minhaTabela=strtolower($tituloPerfil);
-//echo $minhaTabela;
-$telefone=@mysql_query("SELECT _tudo.telefone,_tudo.tituloPerfil FROM _tudo,".$minhaTabela." WHERE _tudo.tituloPerfil = ".$minhaTabela.".contatos;",$conexao) or die (mysql_error());
-//$telefone0=@mysql_query($telefone) or die (mysql_error());
-$telefone1=@mysql_fetch_array($telefone);
-$telefone1=str_replace("(","",$telefone1);
-$telefone1=str_replace(")","",$telefone1);
-$telefone1=str_replace("-","",$telefone1);
-
-$foneLinhas=@mysql_num_rows($telefone);
-$foneLinhasMenos1=@mysql_num_rows($telefone)-1; //para exibir na pagina
-$i=1;//começa do 1 pra nao pegar o seu contato proprio
-//echo "<form name='enviaZap' method='post' action='https://api.whatsapp.com/send?phone=55".$telefone1."&text=Você+tem+um+novo+produto+(".$produto.")+a+venda+na+Rede+Social+do+Tele-Tudo!'>";
-//echo "<form name='enviaZap' method='post' action='https://api.whatsapp.com/send?phone=55".$telefone1."&text=Você+tem+um+novo+produto+(".$produto.")+a+venda+na+Rede+Social+do+Tele-Tudo!'>";
-echo "<h1>Enviando para seus ".$foneLinhasMenos1." clientes</h1>"; 
-$produto=$_POST["nomeProduto"];
-if($foneLinhas > 1){
-    for($i==0;$i<$foneLinhas;$i++){
-        echo "<form name='enviaZap' method='post' action='Whatsapp.php'>";
-        $enviandoNome=ucwords(@mysql_result($telefone,$i,tituloPerfil));
-        //$enviandoNome=explode("_",$enviandoNome);
-        //$enviandoNome1=explode("_",$enviandoNome);
-        //$enviandoNome2="";
-        //$enviandoNome2=$enviandoNome1[0]."-".$enviandoNome1[1];
-        //$zero=' ';
-        echo "<div style='border-radius:8px; background-color:white; color:green;'><h3><input type='text' readonly='true' name='contato' style='border:none; background:transparent; width:30%;' value=".$enviando=@mysql_result($telefone,$i,telefone)."-".$enviandoNome.">";
-        //echo "<input type='text' readonly='true' name='contatoNome' style='border:none; background:transparent;' value=".$enviandoNome=@mysql_result($telefone,$i,tituloPerfil)."/>";
-        echo "<input type='hidden' name='produto' value=".$produto." />";
-        echo "<input type='submit' style='border-radius:8px; background:green; color:white; margin-left:15%;'value='Enviar Whatsapp' /></h3></div>";
-        //echo $telefone1["telefone"];
-        //echo @mysql_result($telefone1,telefone,$i);
-        echo "</form>";
-        echo "<br/>";
+$arquivoExt=explode(".",$_FILES["arquivo"][name]);
+$extensao=$arquivoExt[1];
+    if($extensao == "txt" || $extensao == "js" || $extensao == "php" || $extensao == "bat" || $extensao == "py" || $extensao == "vb" || $extensao == "inf" || $extensao == "ini"){
+        echo "<h4 class='btn btn-danger'>Este tipo de arquivo n&atilde;o &eacute; permitido!</h4>";
+        
+        
     }
-}
-
-/*------------ALTERADO EM 15/11/2018-------------------------*/
-
-
-@mysql_close();//fecha conex�o
+else{
+        $arquivo=str_replace(" ","_",$arquivo);
+        $pasta_dir = "acervos/".$perfil."/";//diretorio dos arquivos
+        //se nao existir a pasta ele cria uma
 
 
-echo "<center><form method='post' enctype='multipart/form-data' action=''>
-<a href='javascript:history.go(-1)'><input type='button' name='sair' value='Voltar' /></a>
-</form></center>";
+        if(!file_exists($pasta_dir)){
+        mkdir($pasta_dir);
+
+        }
+
+        $arquivo_nome = $pasta_dir . $arquivo["name"];
+
+        // Faz o upload da imagem
+        move_uploaded_file($arquivo["tmp_name"], $arquivo_nome);
 
 
 
-}
+        //conecta no banco
+
+        $nome = $_POST['nome'];
+        $tituloPerfil=$_POST['tituloPerfil'];
 
 
 
-}
+
+        //$query = "INSERT INTO _acervos (usuario,nomeProduto,Descricao,imagem,url) VALUES ('$tituloPerfil','$_POST[nomeProduto]','$_POST[descricaoProduto]','$arquivo_nome','$_POST[CEP]','$_POST[urlProduto]')"; // inser��o sql na tabela recados
+
+
+        $query1 = "INSERT INTO _vitrine (vendedor,nomeProduto,Descricao,imagem,url) VALUES ('".strtolower($tituloPerfil)."','$_POST[nomeProduto]','$_POST[descricaoProduto]','$arquivo_nome','$_POST[urlProduto]')"; // inser��o sql na tabela recados
+
+        @mysql_query($query1) or die (mysql_error());
+        //@mysql_query($query) or die (mysql_error());
+
+
+
+        echo "  
+
+        <center><font size='3'>Foto enviada com sucesso";
+        echo "</center><br>";
+        echo  "<img src='$arquivo_nome' width='250'><br/>$nome<br/> <br/>";
+
+
+
+
+        /*------------ALTERADO EM 15/11/2018-------------------------*/
+        $minhaTabela=strtolower($tituloPerfil);
+        //echo $minhaTabela;
+        $telefone=@mysql_query("SELECT _tudo.telefone,_tudo.tituloPerfil FROM _tudo,".$minhaTabela." WHERE _tudo.tituloPerfil = ".$minhaTabela.".contatos;",$conexao) or die (mysql_error());
+        //$telefone0=@mysql_query($telefone) or die (mysql_error());
+        $telefone1=@mysql_fetch_array($telefone);
+        $telefone1=str_replace("(","",$telefone1);
+        $telefone1=str_replace(")","",$telefone1);
+        $telefone1=str_replace("-","",$telefone1);
+
+        $foneLinhas=@mysql_num_rows($telefone);
+        $foneLinhasMenos1=@mysql_num_rows($telefone)-1; //para exibir na pagina
+        $i=1;//começa do 1 pra nao pegar o seu contato proprio
+        //echo "<form name='enviaZap' method='post' action='https://api.whatsapp.com/send?phone=55".$telefone1."&text=Você+tem+um+novo+produto+(".$produto.")+a+venda+na+Rede+Social+do+Tele-Tudo!'>";
+        //echo "<form name='enviaZap' method='post' action='https://api.whatsapp.com/send?phone=55".$telefone1."&text=Você+tem+um+novo+produto+(".$produto.")+a+venda+na+Rede+Social+do+Tele-Tudo!'>";
+        echo "<h1>Enviando para seus ".$foneLinhasMenos1." clientes</h1>"; 
+        $produto=$_POST["nomeProduto"];
+        if($foneLinhas > 1){
+            for($i==0;$i<$foneLinhas;$i++){
+                echo "<form name='enviaZap' method='post' action='Whatsapp.php'>";
+                $enviandoNome=ucwords(@mysql_result($telefone,$i,tituloPerfil));
+                //$enviandoNome=explode("_",$enviandoNome);
+                //$enviandoNome1=explode("_",$enviandoNome);
+                //$enviandoNome2="";
+                //$enviandoNome2=$enviandoNome1[0]."-".$enviandoNome1[1];
+                //$zero=' ';
+                echo "<div style='border-radius:8px; background-color:white; color:green;'><h3><input type='text' readonly='true' name='contato' style='border:none; background:transparent; width:30%;' value=".$enviando=@mysql_result($telefone,$i,telefone)."-".$enviandoNome.">";
+                //echo "<input type='text' readonly='true' name='contatoNome' style='border:none; background:transparent;' value=".$enviandoNome=@mysql_result($telefone,$i,tituloPerfil)."/>";
+                echo "<input type='hidden' name='produto' value=".$produto." />";
+                echo "<input type='submit' style='border-radius:8px; background:green; color:white; margin-left:15%;'value='Enviar Whatsapp' /></h3></div>";
+                //echo $telefone1["telefone"];
+                //echo @mysql_result($telefone1,telefone,$i);
+                echo "</form>";
+                echo "<br/>";
+            }
+        }
+
+        /*------------ALTERADO EM 15/11/2018-------------------------*/
+
+
+        @mysql_close();//fecha conex�o
+
+
+        echo "<center><form method='post' enctype='multipart/form-data' action=''>
+        <a href='javascript:history.go(-1)'><input type='button' name='sair' value='Voltar' /></a>
+        </form></center>";
+
+
+
+        }//ffecha o else que valida o arquivo
+
+}//fecha o if que verifica a existencia do arquivo
+
+}//fecha o usuario
 
 
 
@@ -201,103 +244,112 @@ if($_POST["tipo"]=="fornecedor"){
 
     if ($_FILES["arquivo"] != "") {
     $arquivo = $_FILES["arquivo"];
-    $arquivo=str_replace(" ","_",$arquivo);
-    $pasta_dir = "produtos/".$perfil."/";//diretorio dos arquivos
-    //se nao existir a pasta ele cria uma
-    
-    
-    if(!file_exists($pasta_dir)){
-    mkdir($pasta_dir);
-    
-    }
-    
-    $arquivo_nome = $pasta_dir . $arquivo["name"];
-    
-    // Faz o upload da imagem
-    move_uploaded_file($arquivo["tmp_name"], $arquivo_nome);
-    
-    
-    
-    //conecta no banco
-    
-    $nome = $_POST['nome'];
-    $tituloPerfil=$_POST['tituloPerfil'];
-    
-
-  
-
-    //$query = "INSERT INTO _produtos (fornecedor,nomeProduto,Descricao,url,imagem) VALUES ('$tituloPerfil','$_POST[nomeProduto]','$_POST[descricaoProduto]','$_POST[urlProduto]','$arquivo_nome')"; // inser��o sql na tabela recados
-    
-    $query1 = "INSERT INTO _vitrine (vendedor,nomeProduto,Descricao,imagem,url) VALUES ('".strtolower($tituloPerfil)."','$_POST[nomeProduto]','$_POST[descricaoProduto]','$arquivo_nome','$_POST[urlProduto]')"; // inser��o sql na tabela recados
-    
-
-    @mysql_query($query1) or die (mysql_error());
-
-
-    /*$resultado=@mysql_query("Insert into _produtos (fornecedor,nomeProduto,Descricao)
-    VALUES('".strtoupper(str_replace(" ","_",$incluiUsuario))."','$_POST[nomeProduto]','$_POST[descricaoProduto]');",$conexao);
-    */
-    //@mysql_query($query) or die (mysql_error());
-
-    
-
-
-    echo "
-    
-    <center><font size='3'>Foto enviada com sucesso";
-    echo "</center><br>";
-    echo  "<img src='$arquivo_nome' width='250'><br/>$nome<br/> <br/>";
-    
-
-
-/*------------ALTERADO EM 15/11/2018-------------------------*/
-$minhaTabela=strtolower($tituloPerfil);
-//echo $minhaTabela;
-$telefone=@mysql_query("SELECT _tudo.telefone FROM _tudo,".$minhaTabela." WHERE _tudo.tituloPerfil = ".$minhaTabela.".contatos;",$conexao) or die (mysql_error());
-//$telefone0=@mysql_query($telefone) or die (mysql_error());
-$telefone1=@mysql_fetch_array($telefone);
-$telefone1=str_replace("(","",$telefone1);
-$telefone1=str_replace(")","",$telefone1);
-$telefone1=str_replace("-","",$telefone1);
-
-$foneLinhas=@mysql_num_rows($telefone);
-$i=1;//começa do 1 pra nao pegar o seu contato proprio
-//echo "<form name='enviaZap' method='post' action='https://api.whatsapp.com/send?phone=55".$telefone1."&text=Você+tem+um+novo+produto+(".$produto.")+a+venda+na+Rede+Social+do+Tele-Tudo!'>";
-//echo "<form name='enviaZap' method='post' action='https://api.whatsapp.com/send?phone=55".$telefone1."&text=Você+tem+um+novo+produto+(".$produto.")+a+venda+na+Rede+Social+do+Tele-Tudo!'>";
-echo "<h1>Enviando para seus ".$foneLinhas." clientes</h1>"; 
-$produto=$_POST["nomeProduto"];
-if($foneLinhas > 1){
-        for($i==0;$i<$foneLinhas;$i++){
-            echo "<form name='enviaZap' method='post' action='Whatsapp.php'>";
-            echo "<h3><input type='text' readonly='true' name='contato' style='border:none; background:transparent; width:30%;' value=".$enviando=@mysql_result($telefone,$i,telefone)."-".$enviandoNome=@mysql_result($telefone,$i,tituloPerfil)."></h3>";
-            //echo "<input type='text' readonly='true' name='contatoNome' style='border:none; background:transparent;' value=".$enviandoNome=@mysql_result($telefone,$i,tituloPerfil)."/>";
-            echo "<input type='hidden' name='produto' value=".$produto." />";
-            echo "<input type='submit' style='border-radius:8px; background:green; color:white; margin-left:10%;'value='Enviar Whatsapp' />";
-            //echo $telefone1["telefone"];
-            //echo @mysql_result($telefone1,telefone,$i);
-            echo "</form>";
-            echo "<br/>";
+    $arquivoExt=explode(".",$_FILES["arquivo"][name]);
+    $extensao=$arquivoExt[1];
+        if($extensao == "txt" || $extensao == "js" || $extensao == "php" || $extensao == "bat" || $extensao == "py" || $extensao == "vb" || $extensao == "inf" || $extensao == "ini"){
+            echo "<h4 class='btn btn-danger'>Este tipo de arquivo n&atilde;o &eacute; permitido!</h4>";
+            
+            
         }
-    }
+    else{
+            $arquivo=str_replace(" ","_",$arquivo);
+            $pasta_dir = "produtos/".$perfil."/";//diretorio dos arquivos
+            //se nao existir a pasta ele cria uma
+            
+            
+            if(!file_exists($pasta_dir)){
+            mkdir($pasta_dir);
+            
+            }
+            
+            $arquivo_nome = $pasta_dir . $arquivo["name"];
+            
+            // Faz o upload da imagem
+            move_uploaded_file($arquivo["tmp_name"], $arquivo_nome);
+            
+            
+            
+            //conecta no banco
+            
+            $nome = $_POST['nome'];
+            $tituloPerfil=$_POST['tituloPerfil'];
+            
+
+        
+
+            //$query = "INSERT INTO _produtos (fornecedor,nomeProduto,Descricao,url,imagem) VALUES ('$tituloPerfil','$_POST[nomeProduto]','$_POST[descricaoProduto]','$_POST[urlProduto]','$arquivo_nome')"; // inser��o sql na tabela recados
+            
+            $query1 = "INSERT INTO _vitrine (vendedor,nomeProduto,Descricao,imagem,url) VALUES ('".strtolower($tituloPerfil)."','$_POST[nomeProduto]','$_POST[descricaoProduto]','$arquivo_nome','$_POST[urlProduto]')"; // inser��o sql na tabela recados
+            
+
+            @mysql_query($query1) or die (mysql_error());
 
 
-/*------------ALTERADO EM 15/11/2018-------------------------*/
+            /*$resultado=@mysql_query("Insert into _produtos (fornecedor,nomeProduto,Descricao)
+            VALUES('".strtoupper(str_replace(" ","_",$incluiUsuario))."','$_POST[nomeProduto]','$_POST[descricaoProduto]');",$conexao);
+            */
+            //@mysql_query($query) or die (mysql_error());
+
+            
 
 
-@mysql_close();//fecha conex�o
+            echo "
+            
+            <center><font size='3'>Foto enviada com sucesso";
+            echo "</center><br>";
+            echo  "<img src='$arquivo_nome' width='250'><br/>$nome<br/> <br/>";
+            
 
 
-    echo "<center><form method='post' enctype='multipart/form-data' action=''>
-    <a href='javascript:history.go(-1)'><input type='button' name='sair' value='Voltar' /></a>
-    </form></center>
-";
+        /*------------ALTERADO EM 15/11/2018-------------------------*/
+        $minhaTabela=strtolower($tituloPerfil);
+        //echo $minhaTabela;
+        $telefone=@mysql_query("SELECT _tudo.telefone FROM _tudo,".$minhaTabela." WHERE _tudo.tituloPerfil = ".$minhaTabela.".contatos;",$conexao) or die (mysql_error());
+        //$telefone0=@mysql_query($telefone) or die (mysql_error());
+        $telefone1=@mysql_fetch_array($telefone);
+        $telefone1=str_replace("(","",$telefone1);
+        $telefone1=str_replace(")","",$telefone1);
+        $telefone1=str_replace("-","",$telefone1);
+
+        $foneLinhas=@mysql_num_rows($telefone);
+        $i=1;//começa do 1 pra nao pegar o seu contato proprio
+        //echo "<form name='enviaZap' method='post' action='https://api.whatsapp.com/send?phone=55".$telefone1."&text=Você+tem+um+novo+produto+(".$produto.")+a+venda+na+Rede+Social+do+Tele-Tudo!'>";
+        //echo "<form name='enviaZap' method='post' action='https://api.whatsapp.com/send?phone=55".$telefone1."&text=Você+tem+um+novo+produto+(".$produto.")+a+venda+na+Rede+Social+do+Tele-Tudo!'>";
+        echo "<h1>Enviando para seus ".$foneLinhas." clientes</h1>"; 
+        $produto=$_POST["nomeProduto"];
+        if($foneLinhas > 1){
+                for($i==0;$i<$foneLinhas;$i++){
+                    echo "<form name='enviaZap' method='post' action='Whatsapp.php'>";
+                    echo "<h3><input type='text' readonly='true' name='contato' style='border:none; background:transparent; width:30%;' value=".$enviando=@mysql_result($telefone,$i,telefone)."-".$enviandoNome=@mysql_result($telefone,$i,tituloPerfil)."></h3>";
+                    //echo "<input type='text' readonly='true' name='contatoNome' style='border:none; background:transparent;' value=".$enviandoNome=@mysql_result($telefone,$i,tituloPerfil)."/>";
+                    echo "<input type='hidden' name='produto' value=".$produto." />";
+                    echo "<input type='submit' style='border-radius:8px; background:green; color:white; margin-left:10%;'value='Enviar Whatsapp' />";
+                    //echo $telefone1["telefone"];
+                    //echo @mysql_result($telefone1,telefone,$i);
+                    echo "</form>";
+                    echo "<br/>";
+                }
+            }
+
+
+        /*------------ALTERADO EM 15/11/2018-------------------------*/
+
+
+        @mysql_close();//fecha conex�o
+
+
+            echo "<center><form method='post' enctype='multipart/form-data' action=''>
+            <a href='javascript:history.go(-1)'><input type='button' name='sair' value='Voltar' /></a>
+            </form></center>
+        ";
 
 
 
 
-    }
+            }//fecha o else
+        }//fecha o if
 
-}
+}//fecha o ffornecedor
 
 
 
