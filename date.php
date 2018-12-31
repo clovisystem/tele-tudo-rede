@@ -11,10 +11,12 @@ $ip = $_SERVER['REMOTE_ADDR']; //FUNCIONA EM PRODUÇÃO
 //$ip = "179.158.169.221";
 $ipdetails = new ipdetails($ip); 
 $ipdetails->scan();
+
+$cidade=$ipdetails->get_city() ;
 //echo "<b>IP:</b>        ".$ip                        ."<br />"; 
 ////echo "<b>País:</b>      ".$ipdetails->get_country()  ."<br />";
 //echo "<b>Estado:</b>    ".$ipdetails->get_region()   ."<br />";
-/*echo "<b>Cidade:</b>    ".*/$cidade=$ipdetails->get_city() ;
+/*echo "<b>Cidade:</b>    ".$cidade=$ipdetails->get_city() ;*/
 //echo "<b>Latitude:</b>  ".$ipdetails->get_latitude() ."<br />";
 ////echo "<b>Longitude:</b> ".$ipdetails->get_longitude()."<br />";
 ////echo "<b>Código país:</b> ".$ipdetails->get_countrycode()."<br />";
