@@ -221,6 +221,9 @@ function googleTranslateElementInit() {
 
 <?php
 
+
+
+
 include ("../../based.php");
 
 session_start();
@@ -271,9 +274,15 @@ else{
 	//$password=@mysql_fetch_array($password);
     
     echo '<p style="color:white; font-weight:400;">'.$login.' logado(a) com sucesso!</p><br/>';
-    echo'<form method="post" enctype="multipart/form-data" action="../../index.php">
-    <input type="submit" name="sair" value="Fazer logoff"/></form>';
-    $localizaContato=$login;
+    echo'<form method="post" action="../../index.php">
+        <input type="submit" name="sair" value="Fazer logoff"/>';
+    echo'</form>';
+
+
+
+  
+
+    $localizaContato=$perfil;
 
 
 
@@ -287,14 +296,28 @@ else{
 
 
 
+
+
+
+    include ("../../classes/teletudo.php");
+
+    $tele_tudo=new teletudo();
+    $tele_tudo->perfil=$perfil;
+    //$tele_tudo->conexao=$conexao;
+    //echo $tele_tudo->exibe($perfil);
 
     
+
     
     $perfil=@mysql_query("SELECT * FROM _tudo WHERE email='".$login."';",$conexao);
     $perfil=@mysql_fetch_array($perfil);
     $perfil=$perfil["tituloPerfil"];
-	$numeroMensagens0=@mysql_query("SELECT comentario FROM _mensagens WHERE postar='$perfil';",$conexao);
+	$numeroMensagens0=@mysql_query("SELECT comentario FROM _mensagens WHERE postar='$perfil' AND lida='nao';",$conexao);
     $cont0 = mysql_num_rows($numeroMensagens0);
+
+    //$mensagens=$perfil["lida"];
+
+
 
 
 
@@ -386,7 +409,8 @@ body a:link{text-decoration:none;}
 
  
  #notificacao{background:#e6056a; width:20px; height:20px; float:left; position:relative; margin-left:3px; margin-right:0px; overflow:hidden; }
- #link{margin-left:14%; width:15%; height:40px; float:left; position:relative; }
+ #botaoMensagens{ background:transparent; border:none; text-transform:uppercase; }
+ .link{margin-left:14%; width:15%; height:40px; float:left; position:relative;  }
  #link1{margin-left:10%; width:15%; height:40px; float:left; position:relative; }
  #link2{margin-left:10%; width:15%; height:40px; float:left; position:relative; margin-top:-18px;}
  #contador{background-image:url("././BACKGROUNDS/contador.png");background-repeat:no-repeat; width:260px; height:30px; }
@@ -418,18 +442,51 @@ fieldset{border-radius:10px;}
 <?php
     /*$numeroMensagens=@mysql_query("SELECT comentario FROM _mensagens WHERE postar='".$perfil."';",$conexao);
     $cont = mysql_num_rows($numeroMensagens);*/
+        
+    $perfil=@mysql_query("SELECT * FROM _tudo WHERE email='".$login."';",$conexao);
+    $perfil=@mysql_fetch_array($perfil);
+    $perfil=$perfil["tituloPerfil"];
 ?>
+
 <div id="faixa" style="background-color:#ad0a0a; border-radius:16px; width:1150px; padding-top:50px;" >
-<?php if($cont0<1){echo'<div id="link"><a href="#mensagens">Minhas mensagens</a></div><div id="notificacao">0</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';}else{ ?>
-<?php echo'<div id="link"><a href="#mensagens">Minhas mensagens</a></div><div id="notificacao">'.$cont0.'</div>';}?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<?php if($cont0<1){echo'<div class="link"><a href="#mensagens">Minhas mensagens</a></div><div id="notificacao">0</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';}else{ ?>
+<?php echo'<div class="link" ><a href="#mensagens"><button name="botaoMensagens" id="botaoMensagens"  value="Minhas mensagens" >Minhas mensagens</button></a></div><div id="notificacao">'.$cont0.'</div>';}?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <?php echo'<div id="link1"><a href="#fotos">Meus Produtos</a></div><div id=""></div>'; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <?php echo'<div id="link2"><a href="#contatos">Meus parceiros</a></div><div id=""></div>'; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<form method="post" name="enviaSolicitacao" action="">
+<input type="hidden" value="<?php echo strtoupper($perfil); ?>" name="perfil" id="perfilEnviaHidden"/>
+</form>
+tjyjyj
+
+<br/><br/>
+
+
+
 </div>
 <!--</tr>-->
 </header>
 
 <br/><br/>
 
+
+<script>
+$(document).ready(function(){
+    
+    $("#botaoMensagens").click(function(){
+        var perfil=$("#perfilEnviaHidden").val();
+            if(perfil != ""){
+        //var dados={nome:perfil};
+                alert(toString(nome));
+                $.post('../../procedures/atualizaLidas.php',{nome:perfil});
+                
+               
+            }
+     
+        });
+});
+</script>
+</script>
 
 
 <div style="background-color:white; border-radius:12px; width:1150px; height:60px;"><p align="left"><img src="../../TELE-TUDO-LOGO/tele-tudo-logo.png" width="200" height="60" /></p></div>
