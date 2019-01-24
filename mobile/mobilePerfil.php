@@ -209,7 +209,8 @@ body a:link{text-decoration:none; }
  #faixa a:hover{text-decoration:none; color:yellow;}
  
  #notificacao{background:#e6056a; width:20px; height:20px; float:left; position:relative; margin-left:3px; margin-right:0px; margin-top:-26px;  overflow:hidden; }
- #link{margin-left:80px; width:160px; height:30px; margin-top:-26px; float:left; position:relative; }
+ #botaoMensagens{ background:transparent; border:none; text-transform:uppercase; }
+ .link{margin-left:14%; width:15%; height:40px; float:left; position:relative;  }
  #link1{margin-left:80px; width:160px; height:30px; margin-top:-20px; float:left; position:relative; }
  #link2{margin-left:80px; width:160px; height:30px; margin-top:-14px; float:left; position:relative; }
  #contador{background-image:url("../../BACKGROUNDS/contador.png");background-repeat:no-repeat; width:260px; height:30px;  }
@@ -243,15 +244,43 @@ body a:link{text-decoration:none; }
 <?php
     /*$numeroMensagens=@mysql_query("SELECT comentario FROM _mensagens WHERE postar='".$perfil."';",$conexao);
     $cont = mysql_num_rows($numeroMensagens);*/
+    $perfil=@mysql_query("SELECT * FROM _tudo WHERE email='".$login."';",$conexao);
+    $perfil=@mysql_fetch_array($perfil);
+    $perfil=$perfil["tituloPerfil"];
 ?>
 <div id="faixa" style="background-color:#ad0a0a; border-radius:16px; width:100%; padding-top:50px;" >
 <?php if($cont0<1){echo'<div id="link"><a href="#mensagens">Minhas mensagens</a></div><div id="notificacao">0</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';}else{ ?>
-<?php echo'<div id="link"><a href="#mensagens">Minhas mensagens</a></div><div id="notificacao">'.$cont0.'</div>';}?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<?php echo'<div class="link" ><a href="#mensagens"><button name="botaoMensagens" id="botaoMensagens"  value="Minhas mensagens" >Minhas mensagens</button></a></div><div id="notificacao">'.$cont0.'</div>';}?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <?php echo'<div id="link1"><a href="#fotos">Meus Produtos</a></div><div id=""></div>'; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <?php echo'<div id="link2"><a href="#contatos">Meus parceiros</a></div><div id=""></div>'; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<form method="post" name="enviaSolicitacao" action="">
+<input type="hidden" value="<?php echo strtoupper($perfil); ?>" name="perfil" id="perfilEnviaHidden"/>
+</form>
+
+
 </div>
+
+
+
 <!--</tr>-->
 </header>
+<script>
+$(document).ready(function(){
+    
+    $("#botaoMensagens").click(function(){
+        var perfil=$("#perfilEnviaHidden").val();
+            if(perfil != ""){
+        //var dados={nome:perfil};
+                //alert(toString(nome));
+                $.post('../../procedures/atualizaLidas.php',{nome:perfil});
+                
+               
+            }
+     
+        });
+});
+</script>
 
 
 </main>
